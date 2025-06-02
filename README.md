@@ -16,14 +16,14 @@ Este proyecto destaca por la implementación de diversos conceptos fundamentales
 
 ## Equipo
 
-- **Nombre del equipo:** Eat, Sleep, Code, Repeat
+- **Nombre del equipo:** Eat, Sleep, Code, Repeat.
 
 ### Integrantes del equipo
 
-1. **Nombre completo:** Anthony Odir López Guzmán
+1. **Nombre completo:** Anthony Odir López Guzmán.
    **Carnet:** 00077325.
 
-2. **Nombre completo:** [Oscar Fernando Herrera Rivera]  
+2. **Nombre completo:** Oscar Fernando Herrera Rivera. 
    **Carnet:** 00085525.
 
 3. **Nombre completo:** William Eduardo Peraza Navas.  
