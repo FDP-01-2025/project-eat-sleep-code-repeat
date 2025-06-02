@@ -1,28 +1,36 @@
-# Proyecto de C++ - [Nombre del Juego]
+# Proyecto de C++ - SnakyThings
 
 ## Descripción del Proyecto
 
-Breve descripción del juego, su propósito, cómo se juega y cualquier otro detalle importante que describa la idea general del proyecto.
+SnakyThings es un videojuego desarrollado en C++, basado en el clásico juego de la serpiente, que ofrece una experiencia interactiva en la que el jugador debe guiar una serpiente para recolectar objetos y evitar colisiones. A lo largo de la partida, la dificultad aumenta progresivamente a medida que la serpiente crece.
 
-**Por ejemplo:**
-Este proyecto consiste en un juego de aventuras donde el jugador debe explorar un mundo virtual, recoger objetos, resolver acertijos y enfrentar enemigos. El juego utiliza estructuras de control como `if`, `switch`, y bucles `while` y `for` para generar interacciones dinámicas.
+Este proyecto destaca por la implementación de diversos conceptos fundamentales de la programación estructurada:
+
+**Variables y tipos de datos:** Se utilizan variables para gestionar el tamaño de la serpiente, velocidad, puntuación del jugador, y la reaparición de objetos en el escenario.
+
+****Estructuras condicionales (if, switch):** Son empleadas para verificar colisiones (con el cuerpo, paredes u obstáculos), así como para gestionar el crecimiento de la serpiente al consumir objetos.
+
+**Bucles (while, for):** Se encargan del movimiento continuo de la serpiente, la actualización del escenario, y la reaparición periódica de objetos de manera automática.
+
+**Arreglos:** Se utilizan para representar el cuerpo de la serpiente, permitiendo aumentar o reducir su longitud conforme se desarrolla el juego.
 
 ## Equipo
 
-- **Nombre del equipo:** [Nombre del equipo]
+- **Nombre del equipo:** Eat, Sleep, Code, Repeat
 
 ### Integrantes del equipo
 
-1. **Nombre completo:** [Nombre del estudiante 1]  
-   **Carnet:** [Carnet del estudiante 1]
+1. **Nombre completo:** Anthony Odir López Guzmán
+   **Carnet:** 00077325.
 
-2. **Nombre completo:** [Nombre del estudiante 2]  
-   **Carnet:** [Carnet del estudiante 2]
+2. **Nombre completo:** [Oscar Fernando Herrera Rivera]  
+   **Carnet:** 00085525.
 
-3. **Nombre completo:** [Nombre del estudiante 3]  
-   **Carnet:** [Carnet del estudiante 3]
+3. **Nombre completo:** William Eduardo Peraza Navas.  
+   **Carnet:** 00087925.
 
-(Agregar más integrantes si es necesario)
+4. **Nombre completo:** Rene Fernando Serrano Cardona.  
+   **Carnet:** 00098725.
 
 ## Instrucciones de Ejecución
 
