@@ -22,11 +22,11 @@ Este proyecto destaca por la implementación de diversos conceptos fundamentales
 
 ## Integrantes del equipo
 
-1. **Nombre completo:** Anthony Odir López Guzmán
+1. **Nombre completo:** Anthony Odir López Guzmán  
    **Carnet:**  
    00077325
-   
-2. **Nombre completo:** Oscar Fernando Herrera Rivera
+
+2. **Nombre completo:** Oscar Fernando Herrera Rivera  
    **Carnet:**  
    00085525
 
@@ -34,7 +34,7 @@ Este proyecto destaca por la implementación de diversos conceptos fundamentales
    **Carnet:**  
    00087925
 
-4. **Nombre completo:** Rene Fernando Serrano Cardona 
+4. **Nombre completo:** Rene Fernando Serrano Cardona  
    **Carnet:**  
    00098725
 
