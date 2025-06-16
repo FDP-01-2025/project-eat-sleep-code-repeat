@@ -1,16 +1,16 @@
 #include <iostream>
-#include <windows.h> //La usaremos par poder usar la funcion de limpiar la consola
-#include <time.h>    //Para usar time() en srand()
-#include <stdlib.h>  //Para usar rand() y srand()
-#include <conio.h>   //Para usar _getch() para la entrada del teclado
+#include <windows.h> //This library is for cleaning the console (cls)
+#include <time.h>    //This library is for using time() in srand()
+#include <stdlib.h>  //This library is for using rand() and srand()
+#include <conio.h>   //This library is for using _getch() for keyboard input
 
 using namespace std;
 
-const int W = 20, H = 20;   // Ancho del juego y alto del juego
-bool gameOver;              // Determinar el fin del juego
-int headPos[2], foodPos[2]; // Posicion de X y Y de la serpiente y de la comida
-int tailPosX[100], tailPosY[100], tailLength; // Posiciones de la cola de la serpiente
-int score;                  // Puntuacion del jugador
+const int W = 20, H = 20;   // Height and width of the game window.
+bool gameOver;              // Determine if the game is over
+int headPos[2], foodPos[2]; // Position of X and Y of the snake and the food
+int tailPosX[100], tailPosY[100], tailLength; // Positions of the snake's tail
+int score;                  // Player's score
 
 enum directionEnum
 {
@@ -19,57 +19,57 @@ enum directionEnum
     RIGHT,
     UP,
     DOWN
-};                            // Enumeracion para las direcciones
-directionEnum snakeDirection; // Variable para la direccion de la serpiente
+};                            // Enumeration for directions
+directionEnum snakeDirection; // Variable for the snake's direction
 
-// Inicializar todo
+// Initialize everything
 void init()
 {
-    system("cls"); // Limpiamos la consola al iniciar el juego
+    system("cls"); // Clear the console when starting the game
 
-    headPos[0] = W / 2; // Posicion X de la serpiente
-    headPos[1] = H / 2; // Posicion Y de la serpiente
+    headPos[0] = W / 2; // X position of the snake
+    headPos[1] = H / 2; // Y position of the snake
 
-    foodPos[0] = rand() % W; // Posicion X de la comida (Definimos el rango maximo (w))
-    foodPos[1] = rand() % H; // Posicion Y de la comida (Definimos el rango maximo (h))
+    foodPos[0] = rand() % W; // X position of the food (Define the maximum range (w))
+    foodPos[1] = rand() % H; // Y position of the food (Define the maximum range (h))
 
-    score = 0; // Inicializamos la puntuacion a 0
+    score = 0;  // Initialize the score to 0
 
-    snakeDirection = STOP; // Inicializamos la direccion de la serpiente
+    snakeDirection = STOP; // Initialize the snake's direction
 
     gameOver = false;
 }
-// Renderiza todo en pantalla
+// Render everything on the screen
 void render()
 {
-    system("cls"); // Limpiamos la consola (en Linux sería system("clear"))
+    system("cls"); // Clear the console (in Linux it would be system("clear"))
 
-    // Renderizamos la parte superior del marco
+    // Render the top part of the frame
     for (int i = 0; i < W + 2; i++)
     {
         cout << "#";
     }
     cout << endl;
 
-    // Renderizamos las partes intermedias (el área de juego)
+    // Render the middle parts (the game area)
     for (int i = 0; i < H; i++)
     {
         for (int j = 0; j < W; j++)
         {
-            if (j == 0) // Pared izquierda
+            if (j == 0) // Left wall
                 cout << "#";
 
-            if (j == headPos[0] && i == headPos[1]) // Cabeza de la serpiente
+            if (j == headPos[0] && i == headPos[1]) // Snake head
                 cout << "O";
 
-            else if (j == foodPos[0] && i == foodPos[1]) // Comida
+            else if (j == foodPos[0] && i == foodPos[1]) // Food
                 cout << "*";
 
             else
             {
                 bool printTail = false;
 
-                // Dibujamos la cola de la serpiente
+                // Draw the snake's tail
                 for (int k = 0; k < tailLength; k++)
                 {
                     if (tailPosX[k] == j && tailPosY[k] == i)
@@ -79,18 +79,18 @@ void render()
                     }
                 }
 
-                if (!printTail) // Espacio en blanco si no hay cola
+                if (!printTail) // Blank space if there is no snake or food
                     cout << " ";
             }
 
-            if (j == W - 1) // Pared derecha
+            if (j == W - 1) // Right wall
                 cout << "#";
         }
 
         cout << endl;
     }
 
-    // Renderizamos la parte inferior del marco
+    // Render the bottom part of the frame
     for (int i = 0; i < W + 2; i++)
     {
         cout << "#";
@@ -99,56 +99,56 @@ void render()
     cout << endl
          << endl;
 
-    // Mostramos la puntuación actual
+    // Show the current score
     cout << "Score: " << score << endl;
 }
 
-// Encargado de recibir las instrucciones del teclado
+// Receive the input from the user keyboard
 void input()
 {
-    if (_kbhit()) // Si hay una tecla pulsada
+    if (_kbhit()) // Check if a key has been pressed
     {
-        switch (_getch()) // Obtenemos la tecla pulsada
+        switch (_getch()) // Get the pressed key
         {
-        case 'a':                  // Si se pulsa la tecla 'a'
-            snakeDirection = LEFT; // La serpiente va a la izquierda
+        case 'a':                  // If the 'a' key is pressed
+            snakeDirection = LEFT; // The snake goes left
             break;
-        case 'd':                   // Si se pulsa la tecla 'd'
-            snakeDirection = RIGHT; // La serpiente va a la derecha
+        case 'd':                   // If the 'd' key is pressed
+            snakeDirection = RIGHT; // The snake goes right
             break;
-        case 'w':                // Si se pulsa la tecla 'w'
-            snakeDirection = UP; // La serpiente va hacia arriba
+        case 'w':                   // If the 'w' key is pressed
+            snakeDirection = UP;    // The snake goes up
             break;
-        case 's':                  // Si se pulsa la tecla 's'
-            snakeDirection = DOWN; // La serpiente va hacia abajo
+        case 's':                   // If the 's' key is pressed
+            snakeDirection = DOWN;  // The snake goes down
             break;
-        case 'q':            // Si se pulsa la tecla 'x'
-            gameOver = true; // El juego termina
+        case 'q':                   // If the 'q' key is pressed
+            gameOver = true;        // The game is over
             break;
         }
     }
 }
 
-// Encargado de toda la logica del juego
+// All the game logic is here
 void gameLogic()
 {
-    int prevTailPosX = tailPosX[0]; // Guardamos la posicion X de la cola
-    int prevTailPosY = tailPosY[0]; // Guardamos la posicion Y de la cola
+    int prevTailPosX = tailPosX[0]; // Save the X position of the tail
+    int prevTailPosY = tailPosY[0]; // Save the Y position of the tail
 
-    int prevTailPosX2, prevTailPosY2; // Guardamos la posicion X y Y de la cola anterior
-    tailPosX[0] = headPos[0]; // Actualizamos la posicion X de la cabeza de la serpiente
-    tailPosY[0] = headPos[1]; // Actualizamos la posicion Y de la cabeza de la serpiente
+    int prevTailPosX2, prevTailPosY2; // Save the X and Y position of the previous tail
+    tailPosX[0] = headPos[0]; // Update the X position of the snake head
+    tailPosY[0] = headPos[1]; // Update the Y position of the snake head
 
-    for(int i = 1; i < tailLength; i++) // Recorremos la cola de la serpiente
+    for(int i = 1; i < tailLength; i++) // Traverse the snake's tail
     {
-        prevTailPosX2 = tailPosX[i]; // Guardamos la posicion X de la cola anterior
-        prevTailPosY2 = tailPosY[i]; // Guardamos la posicion Y de la cola anterior
+        prevTailPosX2 = tailPosX[i]; // Save the X position of the previous tail
+        prevTailPosY2 = tailPosY[i]; // Save the Y position of the previous tail
 
-        tailPosX[i] = prevTailPosX; // Actualizamos la posicion X de la cola
-        tailPosY[i] = prevTailPosY; // Actualizamos la posicion Y de la cola
+        tailPosX[i] = prevTailPosX; // Update the X position of the tail
+        tailPosY[i] = prevTailPosY; // Update the Y position of the tail
 
-        prevTailPosX = prevTailPosX2; // Actualizamos la posicion X de la cola anterior
-        prevTailPosY = prevTailPosY2; // Actualizamos la posicion Y de la cola anterior
+        prevTailPosX = prevTailPosX2; // Update the X position of the previous tail
+        prevTailPosY = prevTailPosY2; // Update the Y position of the previous tail
 
     }
 
@@ -156,57 +156,57 @@ void gameLogic()
     switch (snakeDirection)
     {
     case STOP:
-        // No mover la serpiente si la dirección es STOP
+        // Don't move the snake if the direction is STOP
         break;
 
     case LEFT:
-        headPos[0]--; // Mover la cabeza de la serpiente una posición a la izquierda
+        headPos[0]--; // Move the snake head one position to the left
         break;
 
     case RIGHT:
-        headPos[0]++; // Mover la cabeza de la serpiente una posición a la derecha
+        headPos[0]++; // Move the snake head one position to the right
         break;
 
     case UP:
-        headPos[1]--; // Mover la cabeza de la serpiente una posición hacia arriba
+        headPos[1]--; // Move the snake head one position up
         break;
 
     case DOWN:
-        headPos[1]++; // Mover la cabeza de la serpiente una posición hacia abajo
+        headPos[1]++; // Move the snake head one position down
         break;
     }
 
-    if(headPos[0] >= W || headPos[0] < 0 || headPos [1] >= H || headPos[1] < 0)//Si la cabeza de la serpiente toca los bordes del juego
-        gameOver = true; // El juego termina
+    if(headPos[0] >= W || headPos[0] < 0 || headPos [1] >= H || headPos[1] < 0)//If the snake head touches the game borders
+        gameOver = true; // The game is over
 
 
-    for(int i = 0; i < tailLength; i++) // Recorremos la cola de la serpiente
+    for(int i = 0; i < tailLength; i++) // Traverse the snake's tail
     {
-        if(tailPosX[i] == headPos[0] && tailPosY[i] == headPos[1]) // Si la cabeza de la serpiente toca su cola
+        if(tailPosX[i] == headPos[0] && tailPosY[i] == headPos[1]) // If the snake head touches its tail
         {
-            gameOver = true; // El juego termina
+            gameOver = true; // The game is over
         }
     }
-    if(headPos[0] == foodPos[0] && headPos[1] == foodPos[1]) // Si la cabeza de la serpiente toca la comida
+    if(headPos[0] == foodPos[0] && headPos[1] == foodPos[1]) // If the snake head touches the food
     {
-        score += 10; // Aumentamos la puntuacion
-        foodPos[0] = rand() % W; // Generamos una nueva posicion X para la comida
-        foodPos[1] = rand() % H; // Generamos una nueva posicion Y para la comida
-        tailLength++; // Aumentamos la longitud de la cola
+        score += 10; // Increase the score
+        foodPos[0] = rand() % W; // Generate a new X position for the food
+        foodPos[1] = rand() % H; // Generate a new Y position for the food
+        tailLength++; // Increase the length of the tail
     }
 }
 
 int main()
 {
-    srand(time(0)); // Inicializamos la semilla para generar numeros aleatorios
+    srand(time(0)); // Initialize the random seed
 
     init();
 
-    while (!gameOver) // Mientras gameOver sea falso el juego sigue
+    while (!gameOver) // While gameOver is false the game continues
     {
         render();
         input();
         gameLogic();
-        Sleep(50); // Pausa para que el juego no vaya demasiado rápido
+        Sleep(50); // Pause so the game doesn't go too fast
     }
 }
