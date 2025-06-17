@@ -25,6 +25,7 @@ directionEnum snakeDirection; // Variable for the snake's direction
 // Initialize everything
 void init()
 {
+
     system("cls"); // Clear the console when starting the game
 
     headPos[0] = W / 2; // X position of the snake
@@ -42,7 +43,7 @@ void init()
 // Render everything on the screen
 void render()
 {
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0,0}); // To avoid the flickering generated when running the game
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0,0}); // To avoid the flickering generated when running the game.
 
     // system("cls"); // Clear the console. In addition, it has already been commented that it will be eliminated.
 
@@ -171,10 +172,12 @@ void gameLogic()
 
     case UP:
         headPos[1]--; // Move the snake head one position up
+        Sleep(8); //Slightly slows down movement
         break;
 
     case DOWN:
         headPos[1]++; // Move the snake head one position down
+        Sleep(8);//Slightly slows down movement
         break;
     }
 
@@ -207,8 +210,11 @@ int main()
     while (!gameOver) // While gameOver is false the game continues
     {
         render();
+        Sleep(65); // Pause so the game doesn't go too fast
         input();
         gameLogic();
-        Sleep(50); // Pause so the game doesn't go too fast
+        
     }
+
+    cout << "End of the Game :(" << endl;
 }
