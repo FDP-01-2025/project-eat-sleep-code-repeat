@@ -42,7 +42,9 @@ void init()
 // Render everything on the screen
 void render()
 {
-    system("cls"); // Clear the console (in Linux it would be system("clear"))
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0,0}); // To avoid the flickering generated when running the game
+
+    // system("cls"); // Clear the console. In addition, it has already been commented that it will be eliminated.
 
     // Render the top part of the frame
     for (int i = 0; i < W + 2; i++)
