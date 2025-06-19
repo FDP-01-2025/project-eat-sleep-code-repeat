@@ -2,38 +2,19 @@
 #define SNAKE_H_
 
 #include <windows.h> //This library is for cleaning the console (cls)
-#include <vector>    ////Check since we cannot use Vectors 😅
 
-using namespace std;
+#define width 20       // Height and width of the game window.
+#define height 20      // Height and width of the game window.
+#define MAX_LENGTH 100 // maximum allowed length of the snake for the moment
 
-#define W 20 // Height and width of the game window.
-#define H 20 // Height and width of the game window.
-
-class Snake
-{
-private:
-    COORD snakePos;
-    int snakeLength;
-    int snakeVelocity;
-    char snakeDirection;
-    vector<COORD> body;
-
-public:
-    // Constructor:
-    Snake(COORD _snakePos, int _snakeVelocity);
-
-    // Methods:
-    void changeDirection(char _newDirection);
-    void move();
-    void increaseSnakeTail();
-    bool checkEatFood(COORD _foodPos);
-    bool checkCollision();
-
-    // Getters:
-    COORD getSnakePos();
-    vector<COORD> getBody();
-
-    
-};
+// Declaration of functions:
+void initSnake();
+void changeDirection(char newDirection);
+void moveSnake();
+void increaseSnakeLength();
+int checkEatFood(COORD foodPos);
+int checkCollision();
+COORD getSnakeHead();
+void getSnakeBody(COORD bodyOut[], int *lengthOut);
 
 #endif /* SNAKE_H_ */

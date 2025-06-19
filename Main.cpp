@@ -1,167 +1,154 @@
 #include <iostream>
-#include <conio.h> //This library is for using _getch() for keyboard input
+#include <windows.h>
+#include <conio.h>
+#include <stdlib.h>
 #include <time.h>
 #include "Snake.h"
 #include "Food.h"
 
-#define W 20 // Height and width of the game window.
-#define H 20 // Height and width of the game window.
+#define width 20
+#define height 20
 
 using namespace std;
 
-//Variables:
-bool gameOver; // Determine if the game is over
-int score;     // Player's score
+// Global variables
+bool gameOver = false;
+int score = 0;
 
-
-Snake snake({W/2, H/2}, 1);
-Food food;
-
-// Initialize everything
-
-//Methods:
-
+// Hides or shows the cursor in the console.
 void ShowConsoleCursor(bool showFlag)
 {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
-
     GetConsoleCursorInfo(out, &cursorInfo);
     cursorInfo.bVisible = showFlag;
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
-void init()
+// Init the game.
+void initGame()
 {
-    system("cls"); // Clear the console when starting the game
-
-    score = 0; // Initialize the score to 0
-
+    system("cls");
+    score = 0;
     gameOver = false;
+    initSnake();
+    initFood();
+    ShowConsoleCursor(false);
 }
-// Render everything on the screen
+
+// Draw the scenario, snake and food
 void render()
 {
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0}); // To avoid the flickering generated when running the game.
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
 
-    // Render the top part of the frame
-    for (int i = 0; i < W + 2; i++)
-    {
+    // top edge.
+    for (int i = 0; i < width + 2; i++)
         cout << "#";
-    }
     cout << endl;
 
-    // Render the middle parts (the game area)
-    for (int i = 0; i < H; i++)
-    {
+    COORD head = getSnakeHead();
+    COORD food = getFoodPos();
+    COORD body[100];
+    int length;
+    getSnakeBody(body, &length);
 
-        for (int j = 0; j < W; j++)
+    // Game area.
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
         {
-            if (j == 0) // Left wall
+            if (j == 0)
                 cout << "#";
 
-            if (j == snake.getSnakePos().X && i == snake.getSnakePos().Y) // Snake head
+            if (j == head.X && i == head.Y)
                 cout << "O";
-
-            else if (j == food.getFoodPos().X && i == food.getFoodPos().Y) // Food
+            else if (j == food.X && i == food.Y)
                 cout << "*";
-
             else
             {
-                bool printTail = false;
-
-                // Draw the snake's tail
-                for (int k = 0; k < snake.getBody().size(); k++)
+                bool tailPart = false;
+                for (int k = 1; k < length; k++)
                 {
-                    if (j == snake.getBody()[k].X && i == snake.getBody()[k].Y)
+                    if (j == body[k].X && i == body[k].Y)
                     {
                         cout << "o";
-                        printTail = true;
+                        tailPart = true;
+                        break;
                     }
                 }
-                if (!printTail) // Blank space if there is no snake or food
+                if (!tailPart)
                     cout << " ";
             }
-            if (j == W - 1) // Right wall
+
+            if (j == width - 1)
                 cout << "#";
         }
         cout << endl;
     }
 
-    // Render the bottom part of the frame
-    for (int i = 0; i < W + 2; i++)
-    {
+    // lower edge.
+    for (int i = 0; i < width + 2; i++)
         cout << "#";
-    }
-
-    cout<<endl<<endl;
-
-    // Show the current score
-    cout << "Score: " << score << endl;
+    cout << "\n\nScore: " << score << endl;
 }
 
-// Receive the input from the user keyboard
+// Handles keyboard input
 void input()
 {
-    if (_kbhit()) // Check if a key has been pressed
+    if (_kbhit())
     {
-        switch (_getch()) // Get the pressed key
+        switch (_getch())
         {
-        case 'a':                       // If the 'a' key is pressed
-            snake.changeDirection('L'); // The snake goes left
+        case 'a':
+            changeDirection('L');
             break;
-        case 'd':                       // If the 'd' key is pressed
-            snake.changeDirection('R'); // The snake goes right
+        case 'd':
+            changeDirection('R');
             break;
-        case 'w':                       // If the 'w' key is pressed
-            snake.changeDirection('U'); // The snake goes up
-            Sleep(25);
+        case 'w':
+            changeDirection('U');
             break;
-        case 's':                       // If the 's' key is pressed
-            snake.changeDirection('D'); // The snake goes down
-            Sleep(25);
+        case 's':
+            changeDirection('D');
             break;
-        case 'q':            // If the 'q' key is pressed
-            gameOver = true; // The game is over
+        case 'q':
+            gameOver = true;
             break;
         }
     }
-    snake.move();
+    moveSnake();
 }
 
-// All the game logic is here
+/*
+//Check if there is a collision, end the game.
+Also if there is a collision with the food, increase the score.
+Respawn another food and increase the length of the snake by 1
+*/
 void gameLogic()
 {
+    if (checkCollision())
+        gameOver = true;
 
-    if (snake.checkCollision()) // If the snake head touches the game borders
+    if (checkEatFood(getFoodPos()))
     {
-        gameOver = true; // The game is over
-    }
-    if (snake.checkEatFood(food.getFoodPos())) // If the snake head touches the food
-    {
-        score += 10; // Increase the score
-        food.spawnFood();
-        snake.increaseSnakeTail(); // Increase the length of the tail
+        score += 10;
+        spawnFood();
+        increaseSnakeLength();
     }
 }
 
 int main()
 {
-    srand(time(0)); // Initialize the random seed
+    srand(time(0));
+    initGame();
 
-    init();
-
-     ShowConsoleCursor(false);
-
-    while (!gameOver) // While gameOver is false the game continues
+    while (!gameOver)
     {
         render();
-        Sleep(65); // Pause so the game doesn't go too fast
+        Sleep(65);
         input();
         gameLogic();
     }
-
     cout << "End of the Game :(" << endl;
-
     return 0;
 }

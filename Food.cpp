@@ -1,22 +1,21 @@
 #include "Food.h"
 
-//Constructor:
-Food::Food()
+COORD foodPosition; // This is the global variable to store the position of the food.
+
+void initFood() // We start the food in a random position.
 {
-    spawnFood();
+    spawnFood(); // Generates a random position at startup
 }
 
-//Methods:
-void Food::spawnFood()
+// Random position of the food is generated.
+void spawnFood()
 {
-    srand(time(0));
-
-    foodPos.X = rand() % W; // X position of the food (Define the maximum range (w))
-    foodPos.Y = rand() % H; // Y position of the food (Define the maximum range (h))
+    foodPosition.X = rand() % width;
+    foodPosition.Y = rand() % height;
 }
 
-//Getters:
-COORD Food::getFoodPos()
+// // Returns the current position of the food.
+COORD getFoodPos()
 {
-    return foodPos;
+    return foodPosition;
 }

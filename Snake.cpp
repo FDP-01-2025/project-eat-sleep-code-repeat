@@ -1,87 +1,110 @@
 #include "Snake.h"
 
-Snake::Snake(COORD _snakePos, int _snakeVelocity)
+COORD snakeBody[MAX_LENGTH]; // Serpent body (COORD ARRAY).
+int snakeLength;             // Actual length.
+int snakeVelocity;           // Movement speed (init 1).
+char snakeDirection;         // Current direction (UP, DOWN, LEFT, RIGHT).
+
+//init the snake in the center of the game.
+void initSnake()
 {
-    snakePos = _snakePos;
-    snakeVelocity = _snakeVelocity;
     snakeLength = 1;
-    snakeDirection = 'S';
-    body.push_back(snakePos);
+    snakeVelocity = 1;
+    snakeDirection = 'S'; // Quiet a the start.
+    /*
+     * Place the snake's head in the center of the playing area.
+     * - snakeBody[0] represents the head.
+     * - W / 2: half of with (COORD X).
+     * - H / 2: half of height (COORD Y).
+     */
+    snakeBody[0].X = width / 2;
+    snakeBody[0].Y = height / 2;
 }
 
-void Snake::changeDirection(char _newDirection)
+// Changes the direction of the snake.
+void changeDirection(char newDirection)
 {
-    snakeDirection = _newDirection;
+    snakeDirection = newDirection;
 }
-
-void Snake::move()
+// Moves the snake according to its current direction.
+void moveSnake()
 {
+    // Moving the body forward.
+    for (int i = snakeLength - 1; i > 0; i--)
+    {
+        snakeBody[i] = snakeBody[i - 1];
+    }
+
+    // move the head of the snake.
     switch (snakeDirection)
     {
-    case 'U': // UP
-        snakePos.Y -= snakeVelocity;
+    case 'U':
+        snakeBody[0].Y -= snakeVelocity;
         break;
-
-    case 'D': // DOWN
-        snakePos.Y += snakeVelocity;
+    case 'D':
+        snakeBody[0].Y += snakeVelocity;
         break;
-
-    case 'L': // LEFT
-        snakePos.X -= snakeVelocity;
+    case 'L':
+        snakeBody[0].X -= snakeVelocity;
         break;
-
-    case 'R': // RIGHT
-        snakePos.X += snakeVelocity;
+    case 'R':
+        snakeBody[0].X += snakeVelocity;
         break;
     }
-    body.push_back(snakePos);
-
-    if (body.size() > snakeLength)
+}
+// Increase the lenght of snake.
+void increaseSnakeLength()
+{
+    if (snakeLength < MAX_LENGTH)
     {
-        body.erase(body.begin());
+        snakeBody[snakeLength] = snakeBody[snakeLength - 1];
+        snakeLength++;
     }
 }
 
-void Snake::increaseSnakeTail()
+// Check if the snake has eaten the food.
+int checkEatFood(COORD foodPos)
 {
-    snakeLength++;
-}
-
-bool Snake::checkEatFood(COORD _foodPos)
-{
-    bool eat = false;
-
-    if (snakePos.X == _foodPos.X && snakePos.Y == _foodPos.Y)
-        eat = true;
-
-    return eat;
-}
-
-bool Snake::checkCollision()
-{
-    bool collision = false;
-
-    if (snakePos.X >= W || snakePos.X < 0 || snakePos.Y >= H || snakePos.Y < 0)
-
-        collision = true;
-
-    for (int i = 0; i < snakeLength - 1; i++) // Traverse the snake's tail
+    if (snakeBody[0].X == foodPos.X && snakeBody[0].Y == foodPos.Y)
     {
-        if (snakePos.X == body[i].X && snakePos.Y == body[i].Y) // If the snake head touches its tail
+        return 1;
+    }
+    return 0;
+}
+
+// Check if the snake has collided with itself or with the edges.
+int checkCollision()
+{
+    // Collision with edges
+    if (snakeBody[0].X < 0 || snakeBody[0].X >= width || snakeBody[0].Y < 0 || snakeBody[0].Y >= height)
+    {
+        return 1;
+    }
+
+    // Collision with itself
+    for (int i = 1; i < snakeLength; i++)
+    {
+        if (snakeBody[0].X == snakeBody[i].X && snakeBody[0].Y == snakeBody[i].Y)
         {
-            collision = true;
+            return 1;
         }
     }
 
-    return collision;
+    return 0;
 }
 
-COORD Snake::getSnakePos()
+// Returns the position of the head.
+COORD getSnakeHead()
 {
-    return snakePos;
+    return snakeBody[0];
 }
 
-vector<COORD> Snake::getBody()
+// Returns a copy of the snake body and its length.
+void getSnakeBody(COORD bodyOut[], int *lengthOut)
 {
-    return body;
+    for (int i = 0; i < snakeLength; i++)
+    {
+        bodyOut[i] = snakeBody[i];
+    }
+    *lengthOut = snakeLength;
 }
