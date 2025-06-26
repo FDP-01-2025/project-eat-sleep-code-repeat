@@ -5,8 +5,9 @@
 #include <time.h>
 #include "Snake.h"
 #include "Food.h"
+#include "ConfigurationLevel2.h"  // NUEVO: incluir archivo de obstáculos *cambiar a ingles
 
-#define width 20
+#define width 60
 #define height 20
 
 using namespace std;
@@ -42,8 +43,11 @@ void showStartMenu()
 // Global variables
 bool gameOver = false;
 int score = 0;
+int level = 1; // NUEVO: control de nivel *cambiar a ingles
 
-// Hides or shows the cursor in the console.
+COORD obstacles[MAX_OBSTACLES]; // NUEVO: arreglo para los obstáculos *cambiar a ingles
+int activeObstacleCount = 0;    // NUEVO: número actual de obstáculos*cambiar a ingles
+
 void ShowConsoleCursor(bool showFlag)
 {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -53,7 +57,6 @@ void ShowConsoleCursor(bool showFlag)
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
-// Init the game.
 void initGame()
 {
     system("cls");
@@ -64,12 +67,10 @@ void initGame()
     ShowConsoleCursor(false);
 }
 
-// Draw the scenario, snake and food
 void render()
 {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
 
-    // top edge.
     for (int i = 0; i < width + 2; i++)
         cout << "#";
     cout << endl;
@@ -80,7 +81,6 @@ void render()
     int length;
     getSnakeBody(body, &length);
 
-    // Game area.
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
@@ -104,7 +104,19 @@ void render()
                         break;
                     }
                 }
-                if (!tailPart)
+
+                bool isObstacle = false;
+                for (int o = 0; o < activeObstacleCount; o++)
+                {
+                    if (j == obstacles[o].X && i == obstacles[o].Y)
+                    {
+                        cout << "$";
+                        isObstacle = true;
+                        break;
+                    }
+                }
+
+                if (!tailPart && !isObstacle)
                     cout << " ";
             }
 
@@ -114,13 +126,11 @@ void render()
         cout << endl;
     }
 
-    // lower edge.
     for (int i = 0; i < width + 2; i++)
         cout << "#";
-    cout << "\n\nScore: " << score << endl;
+    cout << "\n\nScore: " << score << "  Level: " << level << endl;
 }
 
-// Handles keyboard input
 void input()
 {
     if (_kbhit())
@@ -147,13 +157,18 @@ void input()
     moveSnake();
 }
 
-/*
-//Check if there is a collision, end the game.
-Also if there is a collision with the food, increase the score.
-Respawn another food and increase the length of the snake by 1
-*/
 void gameLogic()
 {
+    COORD head = getSnakeHead();
+    for (int i = 0; i < activeObstacleCount; i++)
+    {
+        if (head.X == obstacles[i].X && head.Y == obstacles[i].Y)
+        {
+            gameOver = true;
+            return;
+        }
+    }
+
     if (checkCollision())
         gameOver = true;
 
@@ -162,13 +177,26 @@ void gameLogic()
         score += 10;
         spawnFood();
         increaseSnakeLength();
+
+        if (score >= 50 && level == 1)
+        {
+            level = 2;
+            configurationLevel2();
+            for (int i = 0; i < obstacleCount; i++)
+                obstacles[i] = level2Obstacles[i];
+            activeObstacleCount = obstacleCount;
+            initGame();
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {width / 2 - 5, height / 2});
+            cout << "LEVEL 2!";
+            Sleep(2000);
+        }
     }
 }
 
 int main()
 {
     srand(time(0));
-    showStartMenu(); // Show the menu.
+    showStartMenu();
     initGame();
 
     while (!gameOver)
