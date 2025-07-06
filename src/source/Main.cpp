@@ -27,15 +27,36 @@ void showStartMenu()
     cout << "|                                                                                                                                             |" << endl;
     cout << "*---------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
     cout << "                                                         PRESS ENTER TO START!                                                              \n";
-    while (true)
-    {
-        if (_kbhit())
-        {
-            char key = _getch();
-            if (key == 13)
-                break; // 13 = Enter
-        }
-    }
+    cout << "                                                      PRESS SPACE FOR HOW TO PLAY!                                                          \n";
+    cout << "                                                      PRESS X FOR EXIT THE GAME :(                                                          \n";
+}
+void showHowToPlayMenu()
+{
+    system("cls");
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "|                                                                                                                            |" << endl;
+    cout << "| *       *     ******     **       **     ***********     ******        *********    **              ***      **         ** |" << endl;
+    cout << "| *       *   **      **   **       **         **        **      **      **       **  **             **  **     **       **  |" << endl;
+    cout << "| *       *  **        **  **       **         **       **        **     **       **  **            **    **     **     **   |" << endl;
+    cout << "| *********  **        **  **   *   **         **       **        **     **********   **           **********      **  **    |" << endl;
+    cout << "| *       *  **        **  **  ***  **         **       **        **     **           **           **      **        **      |" << endl;
+    cout << "| *       *  **        **  ** ** ** **         **       **        **     **           **           **      **        **      |" << endl;
+    cout << "| *       *   **      **   ***********         **        **      **      **           **           **      **        **      |" << endl;
+    cout << "| *       *     ******     ***     ***         **          ******        **           ***********  **      **        **      |" << endl;
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "                                                        *---------*                                                           " << endl;
+    cout << "                                                        |CONTROLS:|                                                        \n";
+    cout << "                                                        *---------*                                                           " << endl;
+    cout << "                                                       W - MOVE UP                                                         \n";
+    cout << "                                                       A - MOVE LEFT                                                       \n";
+    cout << "                                                       S - MOVE DOWN                                                       \n";
+    cout << "                                                       D - MOVE RIGHT                                                      \n";
+    cout << "                                                                                                                           \n";
+    cout << "                                          GOAL: EAT TO GROW MORE AD SURPASS THE LEVELS!                                    \n";
+    cout << "                                                                                                                           \n";
+    cout << "                                         GAME OVER: IF YOU HIT YOUR OWN TAIL OR THE WALLS!                                 \n";
+    cout << "                                                                                                                           \n";
+    cout << "                                                 PRESS O TO RETURN TO THE MENU.                                            \n";
 }
 
 // Global variables
@@ -210,7 +231,49 @@ void gameLogic()
 int main()
 {
     srand(time(0));
-    showStartMenu();
+
+    bool inMainMenu = true; // The game is initialized in the Main Menu
+
+    while (inMainMenu)
+    {
+        showStartMenu(); // This displays the start menu
+
+        // Wait for the user to press ENTER, SPACE, or X
+        while (true)
+        {
+            if (_kbhit())
+            {
+                char key = _getch();
+                if (key == 13) // KEY ENTER
+                {
+                    inMainMenu = false;
+                    break; // Start the game
+                }
+                else if (key == ' ') // KEY SPACE
+                {
+                    showHowToPlayMenu();
+
+                    // Wait for 'O' to return to the main menu
+                    while (true)
+                    {
+                        if (_kbhit())
+                        {
+                            char subKey = _getch();
+                            if (subKey == 'o' || subKey == 'O') // KEY O
+                                break;                          // Return to the main menu
+                        }
+                    }
+
+                    break; // Exit How To Play and return to start menu
+                }
+                else if (key == 'x' || key == 'X') // KEY X
+                {
+                    exit(0); // Exit the game
+                }
+            }
+        }
+    }
+
     initGame();
 
     while (!gameOver)
