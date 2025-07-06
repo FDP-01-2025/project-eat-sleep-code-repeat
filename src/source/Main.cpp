@@ -3,12 +3,9 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "Snake.h"
-#include "Food.h"
-#include "ConfigurationLevel2.h"  // NUEVO: incluir archivo de obstáculos *cambiar a ingles
-
-#define width 60
-#define height 20
+#include "../headers/Snake.h"
+#include "../headers/Food.h"
+#include "../headers/ConfigurationLevel2.h"
 
 using namespace std;
 
@@ -43,10 +40,10 @@ void showStartMenu()
 // Global variables
 bool gameOver = false;
 int score = 0;
-int level = 1; // NUEVO: control de nivel *cambiar a ingles
+int level = 1;
 
-COORD obstacles[MAX_OBSTACLES]; // NUEVO: arreglo para los obstáculos *cambiar a ingles
-int activeObstacleCount = 0;    // NUEVO: número actual de obstáculos*cambiar a ingles
+COORD obstacles[MAX_OBSTACLES];
+int activeObstacleCount = 0;
 
 void ShowConsoleCursor(bool showFlag)
 {
@@ -71,19 +68,19 @@ void render()
 {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
 
-    for (int i = 0; i < width + 2; i++)
+    for (int i = 0; i < GAME_WIDTH + 2; i++)
         cout << "#";
     cout << endl;
 
     COORD head = getSnakeHead();
     COORD food = getFoodPos();
-    COORD body[100];
+    COORD body[MAX_SNAKE_LENGTH];
     int length;
     getSnakeBody(body, &length);
 
-    for (int i = 0; i < height; i++)
+    for (int i = 0; i < GAME_HEIGHT; i++)
     {
-        for (int j = 0; j < width; j++)
+        for (int j = 0; j < GAME_WIDTH; j++)
         {
             if (j == 0)
                 cout << "#";
@@ -120,13 +117,13 @@ void render()
                     cout << " ";
             }
 
-            if (j == width - 1)
+            if (j == GAME_WIDTH - 1)
                 cout << "#";
         }
         cout << endl;
     }
 
-    for (int i = 0; i < width + 2; i++)
+    for (int i = 0; i < GAME_WIDTH + 2; i++)
         cout << "#";
     cout << "\n\nScore: " << score << "  Level: " << level << endl;
 }
@@ -174,11 +171,11 @@ void gameLogic()
 
     if (checkEatFood(getFoodPos()))
     {
-        score += 10;
+        score += POINTS_PER_FOOD;
         spawnFood();
         increaseSnakeLength();
 
-        if (score >= 50 && level == 1)
+        if (score >= POINTS_FOR_LEVEL_2 && level == 1)
         {
             level = 2;
             configurationLevel2();
@@ -186,7 +183,7 @@ void gameLogic()
                 obstacles[i] = level2Obstacles[i];
             activeObstacleCount = obstacleCount;
             initGame();
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {width / 2 - 5, height / 2});
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
             cout << "LEVEL 2!";
             Sleep(2000);
         }
@@ -202,7 +199,7 @@ int main()
     while (!gameOver)
     {
         render();
-        Sleep(65);
+        Sleep(GAME_SPEED);
         input();
         gameLogic();
     }

@@ -2,14 +2,13 @@
 #define CONFIGURATION_LEVEL2_H_
 
 #include <windows.h>
+#include "Config.h"  // Include global configuration
 
-#define MAX_OBSTACLES 10
-
-// Arreglo global que contiene las posiciones de los obstáculos del nivel 2
+// Global array that contains the positions of level 2 obstacles
 extern COORD level2Obstacles[MAX_OBSTACLES];
 extern int obstacleCount;
 
-// Configura los obstáculos del nivel 2
+// Configures level 2 obstacles
 void configurationLevel2();
 
-#endif 
+#endif

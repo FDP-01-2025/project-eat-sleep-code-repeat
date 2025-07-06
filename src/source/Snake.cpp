@@ -1,24 +1,24 @@
 #include "../headers/Snake.h"
 
-COORD snakeBody[MAX_LENGTH]; // Serpent body (COORD ARRAY).
-int snakeLength;             // Actual length.
-int snakeVelocity;           // Movement speed (init 1).
-char snakeDirection;         // Current direction (UP, DOWN, LEFT, RIGHT).
+COORD snakeBody[MAX_SNAKE_LENGTH]; // Serpent body (COORD ARRAY).
+int snakeLength;                   // Actual length.
+int snakeVelocity;                 // Movement speed (init 1).
+char snakeDirection;               // Current direction (UP, DOWN, LEFT, RIGHT).
 
-//init the snake in the center of the game.
+// Init the snake in the center of the game.
 void initSnake()
 {
     snakeLength = 1;
     snakeVelocity = 1;
-    snakeDirection = 'S'; // Quiet a the start.
+    snakeDirection = 'S'; // Quiet at the start.
     /*
      * Place the snake's head in the center of the playing area.
      * - snakeBody[0] represents the head.
-     * - W / 2: half of with (COORD X).
-     * - H / 2: half of height (COORD Y).
+     * - GAME_WIDTH / 2: half of width (COORD X).
+     * - GAME_HEIGHT / 2: half of height (COORD Y).
      */
-    snakeBody[0].X = width / 2;
-    snakeBody[0].Y = height / 2;
+    snakeBody[0].X = GAME_WIDTH / 2;
+    snakeBody[0].Y = GAME_HEIGHT / 2;
 }
 
 // Changes the direction of the snake.
@@ -26,6 +26,7 @@ void changeDirection(char newDirection)
 {
     snakeDirection = newDirection;
 }
+
 // Moves the snake according to its current direction.
 void moveSnake()
 {
@@ -35,7 +36,7 @@ void moveSnake()
         snakeBody[i] = snakeBody[i - 1];
     }
 
-    // move the head of the snake.
+    // Move the head of the snake.
     switch (snakeDirection)
     {
     case 'U':
@@ -52,10 +53,11 @@ void moveSnake()
         break;
     }
 }
-// Increase the lenght of snake.
+
+// Increase the length of snake.
 void increaseSnakeLength()
 {
-    if (snakeLength < MAX_LENGTH)
+    if (snakeLength < MAX_SNAKE_LENGTH)
     {
         snakeBody[snakeLength] = snakeBody[snakeLength - 1];
         snakeLength++;
@@ -76,7 +78,7 @@ int checkEatFood(COORD foodPos)
 int checkCollision()
 {
     // Collision with edges
-    if (snakeBody[0].X < 0 || snakeBody[0].X >= width || snakeBody[0].Y < 0 || snakeBody[0].Y >= height)
+    if (snakeBody[0].X < 0 || snakeBody[0].X >= GAME_WIDTH || snakeBody[0].Y < 0 || snakeBody[0].Y >= GAME_HEIGHT)
     {
         return 1;
     }

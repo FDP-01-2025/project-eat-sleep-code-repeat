@@ -10,11 +10,11 @@ void initFood() // We start the food in a random position.
 // Random position of the food is generated.
 void spawnFood()
 {
-    foodPosition.X = rand() % width;
-    foodPosition.Y = rand() % height;
+    foodPosition.X = rand() % GAME_WIDTH;
+    foodPosition.Y = rand() % GAME_HEIGHT;
 }
 
-// // Returns the current position of the food.
+// Returns the current position of the food.
 COORD getFoodPos()
 {
     return foodPosition;
