@@ -1,45 +1,109 @@
-# Proyecto de C++ – SnakyThings
+# 🐍 SnakyThings 🐍 
 
-## Descripción del Proyecto
+## 🎮 Theme and Settings:
 
-**SnakyThings** es un videojuego desarrollado en **C++**, basado en el clásico juego de la serpiente, que ofrece una experiencia interactiva en la que el jugador debe guiar una serpiente para recolectar objetos y evitar colisiones. A lo largo de la partida, la dificultad aumenta progresivamente a medida que la serpiente crece.
+**SnakyThings** is a classic console-based game inspired by the traditional Snake. You control a snake that moves around the map, eats objects to grow, and earns points.
 
-Este proyecto destaca por la implementación de diversos conceptos fundamentales de la programación estructurada:
+As you progress, the game becomes more challenging with new levels and obstacles that you must avoid to stay alive. Everything happens in a simple, retro-style text-based environment, giving it a minimalist yet fun gameplay experience.
+##
 
-- **Variables y tipos de datos:** Se utilizan variables para gestionar el tamaño de la serpiente, velocidad, puntuación del jugador y la reaparición de objetos en el escenario.
+## ⚙️ Main Mechanic:
+The main mechanic of SnakyThings is simple: guide the snake using the AWSD keys to collect food that appears on the screen. Each time the snake eats, it grows longer and the score increases.
 
-- **Estructuras condicionales (`if`, `switch`):** Se emplean para verificar colisiones (con el cuerpo, paredes u obstáculos), así como para gestionar el crecimiento de la serpiente al consumir objetos.
+The challenge comes from avoiding collisions—either with the walls, with obstacles that appear in higher levels, or with the snake’s own body. The game ends if the snake crashes into anything.
 
-- **Bucles (`while`, `for`):** Se encargan del movimiento continuo de la serpiente, la actualización del escenario y la reaparición periódica de objetos.
+As the player reaches certain scores, new levels are unlocked with increasing difficulty and different obstacle layouts.
+##
 
-- **Arreglos:** Se utilizan para representar el cuerpo de la serpiente, permitiendo aumentar o reducir su longitud conforme avanza el juego.
+## 🧩 General Gameplay Idea:
+SnakyThings offers a simple yet engaging gameplay experience. You start with a small snake on an empty map, and your goal is to eat as much food as you can to grow and earn points.
 
-- **Entrada y salida de datos:** El juego permite guardar récords de puntuación, realizar configuraciones iniciales y llevar un control básico del progreso del jugador.
+As the snake grows, the game becomes more difficult: space is reduced by obstacles and your movements must be more precise. When you reach a high score, new levels are unlocked with obstacles placed on the map, which add an extra level of difficulty.
 
-## Nombre del equipo
+The game focuses on reflexes, planning your moves and adapting to the increasing challenge as you progress.
+##
 
+## 🔧 Technical Considerations:
+SnakyThings is developed in C++ and runs purely in the console, using only standard system libraries and text-based rendering.
+
+**Key technical details:**
+- Language: C++.
+
+- Environment: Console-only. (no graphical interface)
+  
+**Libraries used:**
+
+- **`<iostream>`** for input and output.
+
+- **`<windows.h>`** for cursor control and screen clearing.
+
+- **`<conio.h>`** for real-time key detection.
+
+- **`<stdlib.h>`** and **`<time.h>`** for system functions and randomness.
+
+- **`<fstream>`** For saving player names and scores to a `.txt` file
+
+**Implementation details and restrictions**:
+
+ - ✅ The game logic is implemented using variables and basic data types, arrays, Conditional structures: (if, else, switch), loops: (for, while, do while), file handling to save player names and scores to a .txt file and functions.
+
+-  ⚠️ No use of vectors, lists, trees, or object-oriented programming.eep the code simple and easy to understand. This helps keep the code simple, readable, and easy to modify.
+##
+
+## 🖼️ Mockups and Conceptual Designs:
+**Main menu.**
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/eeef6c59-a427-4e70-b896-b1cf196cd050" />
+**Player name entered. (To display in the game)**
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/0de35f76-7c39-4f4a-a840-08d8a19498c1" />
+**How to play menu. (If the player press SPACE)**
+<img width="1915" height="1009" alt="Image" src="https://github.com/user-attachments/assets/34fbd706-d4bc-4539-a85e-9ccba3d111c3" />
+**Level 1 design. (With no obstacles)**
+<img width="1919" height="1076" alt="Image" src="https://github.com/user-attachments/assets/63cb6b64-a7e1-4578-a674-340a3b9e8340" />
+**Design of level surpassed.**
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/93fab2de-7e98-46ea-be68-32a2af60132e" />
+**Level 2 design. (With obstacles)**
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/3e4969e8-b9dc-4893-a667-16c23f464017" />
+**Level 3 design. (With obstacles)**
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/a9355a2a-8d7a-4830-add1-84f6a951442b" />
+**Level 4 design. (With obstacles)**
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/1e3a13eb-3867-4776-9ae3-712a6e153454" />
+**Level 5 design. (With obstacles)**
+<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/2db97ee1-670d-4473-8f0f-ac957baa677e" />
+**Congratulations! You Win!**
+<img width="1903" height="1068" alt="Image" src="https://github.com/user-attachments/assets/76a0c253-ad5d-41a0-af07-ff612d756508" />
+**Game Over.**
+<img width="1919" height="1061" alt="Image" src="https://github.com/user-attachments/assets/7c85fe42-6b50-4ac5-89fe-0d3514374424" />
+##
+## 💼 Team name:
 **Eat, Sleep, Code, Repeat.**
+##
+## 👥 Team Members
 
-## Integrantes del equipo
+1. **Anthony Odir López Guzmán.**  
+   📘 **Student ID:** 00077325.
 
-1. Anthony Odir López Guzmán  
-   **Carnet:**  
-   00077325
+2. **Oscar Fernando Herrera Rivera.**  
+   📘 **Student ID:** 00085525.
 
-2. Oscar Fernando Herrera Rivera  
-   **Carnet:**  
-   00085525
+3. **William Eduardo Peraza Navas.**  
+   📘 **Student ID:** 00087925
 
-3. William Eduardo Peraza Navas  
-   **Carnet:**  
-   00087925
+4. **Rene Fernando Serrano Cardona.**  
+   📘 **Student ID:** 00098725.
+##
+## 🚀 How to Run the Project Locally
 
-4. Rene Fernando Serrano Cardona  
-   **Carnet:**  
-   00098725
+1. **Clone the repository:**
 
-## Instrucciones de Ejecución
+```bash
+https://github.com/FDP-01-2025/project-eat-sleep-code-repeat.git
 
-1. Clona este repositorio en tu máquina local:
-   ```bash
-   git clone https://github.com/usuario/repositorio-snakythings.git
+
+
+
+
+
+
+
+
+
