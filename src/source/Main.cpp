@@ -29,6 +29,33 @@ void showStartMenu()
     cout << "                                                      PRESS SPACE FOR HOW TO PLAY!                                                          \n";
     cout << "                                                      PRESS X FOR EXIT THE GAME :(                                                          \n";
 }
+
+void showLevelSelectionMenu()
+{
+    system("cls");
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "|                                                                                                                            |" << endl;
+    cout << "| **          **********  **       **  **********  **           ********  **********  **          **********  *********** |" << endl;
+    cout << "| **          **          **       **  **          **           **        **          **          **          **         |" << endl;
+    cout << "| **          **          **       **  **          **           **        **          **          **          **         |" << endl;
+    cout << "| **          **          **       **  **          **           **        **          **          **          **         |" << endl;
+    cout << "| **          **********  **       **  **********  **           ********  **********  **          **********  ********** |" << endl;
+    cout << "| **          **          **       **  **          **                 **  **          **          **          **         |" << endl;
+    cout << "| **          **          **       **  **          **                 **  **          **          **          **         |" << endl;
+    cout << "| **          **           **     **   **          **                 **  **          **          **          **         |" << endl;
+    cout << "| **********  **********    *******    **********  **********  ********  **********  **********  **********  *********** |" << endl;
+    cout << "|                                                                                                                            |" << endl;
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "                                                                                                                           " << endl;
+    cout << "                                               SELECT YOUR STARTING LEVEL:                                                 " << endl;
+    cout << "                                                                                                                           " << endl;
+    cout << "                                                   1 - LEVEL 1 (EASY)                                                    " << endl;
+    cout << "                                                   2 - LEVEL 2 (OBSTACLES)                                               " << endl;
+    cout << "                                                                                                                           " << endl;
+    cout << "                                              PRESS THE NUMBER OF YOUR CHOICE                                             " << endl;
+    cout << "                                                   OR ESC TO GO BACK                                                     " << endl;
+}
+
 void showHowToPlayMenu()
 {
     system("cls");
@@ -62,6 +89,7 @@ void showHowToPlayMenu()
 bool gameOver = false;
 int score = 0;
 int level = 1;
+int selectedLevel = 1; // Nueva variable para el nivel seleccionado
 
 COORD obstacles[MAX_OBSTACLES];
 int activeObstacleCount = 0;
@@ -78,9 +106,29 @@ void ShowConsoleCursor(bool showFlag)
 void initGame()
 {
     system("cls");
-    score = 0;
     gameOver = false;
-    initSnake();
+    level = selectedLevel; // Establecer el nivel al nivel seleccionado
+    
+    // Configurar score según el nivel seleccionado
+    if (selectedLevel == 1) {
+        score = 0; // Empezar desde 0 en nivel 1
+    } else if (selectedLevel == 2) {
+        score = 0; // Empezar desde 0 en nivel 2 también
+    }
+    
+    // IMPORTANTE: Reiniciar la serpiente ANTES de configurar obstáculos
+    initSnake(); // Esto reinicia la serpiente a su tamaño inicial
+    
+    // Configurar obstáculos según el nivel seleccionado
+    if (selectedLevel == 2) {
+        configurationLevel2();
+        for (int i = 0; i < obstacleCount; i++)
+            obstacles[i] = level2Obstacles[i];
+        activeObstacleCount = obstacleCount;
+    } else {
+        activeObstacleCount = 0; // Sin obstáculos en nivel 1
+    }
+    
     initFood();
     ShowConsoleCursor(false);
 }
@@ -196,14 +244,29 @@ void gameLogic()
         spawnFood();
         increaseSnakeLength();
 
-        if (score >= POINTS_FOR_LEVEL_2 && level == 1)
+        // Solo avanzar de nivel si empezamos en nivel 1 Y estamos actualmente en nivel 1
+        if (selectedLevel == 1 && score >= POINTS_FOR_LEVEL_2 && level == 1)
         {
             level = 2;
+            
+            // Guardar el score actual antes de reiniciar
+            int currentScore = score;
+            
+            // Reiniciar la serpiente pero mantener el score
+            initSnake(); // Reinicia la serpiente a tamaño pequeño
+            score = currentScore; // Restaurar el score
+            
+            // Configurar obstáculos del nivel 2
             configurationLevel2();
             for (int i = 0; i < obstacleCount; i++)
                 obstacles[i] = level2Obstacles[i];
             activeObstacleCount = obstacleCount;
-            initGame();
+            
+            // Generar nueva comida después de reiniciar
+            initFood();
+            
+            // Mostrar mensaje de nivel 2
+            system("cls");
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
             cout << "LEVEL 2!";
             Sleep(2000);
@@ -215,43 +278,73 @@ int main()
 {
     srand(time(0));
 
-    bool inMainMenu = true; // The game is initialized in the Main Menu
+    bool inMainMenu = true;
 
     while (inMainMenu)
     {
-        showStartMenu(); // This displays the start menu
+        showStartMenu();
 
-        // Wait for the user to press ENTER, SPACE, or X
         while (true)
         {
             if (_kbhit())
             {
                 char key = _getch();
-                if (key == 13) // KEY ENTER
+                if (key == 13) // ENTER - Mostrar menú de selección de nivel
                 {
-                    inMainMenu = false;
-                    break; // Start the game
+                    bool inLevelMenu = true;
+                    
+                    while (inLevelMenu)
+                    {
+                        showLevelSelectionMenu();
+                        
+                        while (true)
+                        {
+                            if (_kbhit())
+                            {
+                                char levelKey = _getch();
+                                if (levelKey == '1')
+                                {
+                                    selectedLevel = 1;
+                                    inLevelMenu = false;
+                                    inMainMenu = false;
+                                    break;
+                                }
+                                else if (levelKey == '2')
+                                {
+                                    selectedLevel = 2;
+                                    inLevelMenu = false;
+                                    inMainMenu = false;
+                                    break;
+                                }
+                                else if (levelKey == 27) // ESC - Volver al menú principal
+                                {
+                                    inLevelMenu = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (!inMainMenu) break; // Salir del menú principal si se seleccionó un nivel
                 }
-                else if (key == ' ') // KEY SPACE
+                else if (key == ' ') // SPACE - Mostrar cómo jugar
                 {
                     showHowToPlayMenu();
 
-                    // Wait for 'O' to return to the main menu
                     while (true)
                     {
                         if (_kbhit())
                         {
                             char subKey = _getch();
-                            if (subKey == 'o' || subKey == 'O') // KEY O
-                                break;                          // Return to the main menu
+                            if (subKey == 'o' || subKey == 'O')
+                                break;
                         }
                     }
-
-                    break; // Exit How To Play and return to start menu
+                    break;
                 }
-                else if (key == 'x' || key == 'X') // KEY X
+                else if (key == 'x' || key == 'X') // X - Salir del juego
                 {
-                    exit(0); // Exit the game
+                    exit(0);
                 }
             }
         }
@@ -266,6 +359,7 @@ int main()
         input();
         gameLogic();
     }
+    
     cout << "End of the Game :(" << endl;
     return 0;
 }
