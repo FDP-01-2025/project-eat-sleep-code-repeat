@@ -6,6 +6,7 @@
 #include "../headers/Snake.h"
 #include "../headers/Food.h"
 #include "../headers/ConfigurationLevel2.h"
+#include "../headers/ConfigurationLevel3.h"
 
 using namespace std;
 
@@ -179,14 +180,30 @@ void gameLogic()
         {
             level = 2;
             configurationLevel2();
-            for (int i = 0; i < obstacleCount; i++)
+            for (int i = 0; i < obstacleCountlevel2; i++)
                 obstacles[i] = level2Obstacles[i];
-            activeObstacleCount = obstacleCount;
+            activeObstacleCount = obstacleCountlevel2;
             initGame();
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
             cout << "LEVEL 2!";
             Sleep(2000);
+
+            
         }
+
+        if (score >= POINTS_FOR_LEVEL_3 && level == 2)
+            {
+                level = 3;
+                configurationLevel3();
+                for (int i = 0; i < obstacleCountlevel3; i++)
+                    obstacles[i] = level3Obstacles[i];
+                activeObstacleCount = obstacleCountlevel3;
+                initGame();
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
+                cout << "LEVEL 3!";
+                Sleep(2000);
+            }
+            
     }
 }
 

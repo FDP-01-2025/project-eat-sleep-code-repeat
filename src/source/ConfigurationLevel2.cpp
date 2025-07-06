@@ -1,7 +1,7 @@
 #include "../headers/ConfigurationLevel2.h"
 
 COORD level2Obstacles[MAX_OBSTACLES];
-int obstacleCount = 0;
+int obstacleCountlevel2 = 0;
 
 void configurationLevel2()
 {
@@ -23,5 +23,5 @@ void configurationLevel2()
         index++;
     }
 
-    obstacleCount = index;
+    obstacleCountlevel2 = index;
 }
