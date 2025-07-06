@@ -6,7 +6,8 @@
 
 // Global array that contains the positions of level 2 obstacles
 extern COORD level2Obstacles[MAX_OBSTACLES];
-extern int obstacleCount;
+
+extern int obstacleCountlevel2;
 
 // Configures level 2 obstacles
 void configurationLevel2();
