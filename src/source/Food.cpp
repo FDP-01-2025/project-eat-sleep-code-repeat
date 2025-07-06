@@ -1,4 +1,4 @@
-#include "Food.h"
+#include "../headers/Food.h"
 
 COORD foodPosition; // This is the global variable to store the position of the food.
 

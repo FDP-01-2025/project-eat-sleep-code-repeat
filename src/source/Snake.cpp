@@ -1,4 +1,4 @@
-#include "Snake.h"
+#include "../headers/Snake.h"
 
 COORD snakeBody[MAX_LENGTH]; // Serpent body (COORD ARRAY).
 int snakeLength;             // Actual length.

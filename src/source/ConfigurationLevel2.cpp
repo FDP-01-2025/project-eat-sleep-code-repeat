@@ -1,4 +1,4 @@
-#include "ConfigurationLevel2.h"
+#include "../headers/ConfigurationLevel2.h"
 
 COORD level2Obstacles[MAX_OBSTACLES];
 int obstacleCount = 0;
