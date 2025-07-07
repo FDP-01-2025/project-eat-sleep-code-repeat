@@ -5,6 +5,7 @@
 #include <time.h>
 #include "../headers/Snake.h"
 #include "../headers/Food.h"
+#include "../headers/PowerUps.h"
 #include "../headers/ConfigurationLevel2.h"
 #include "../headers/ConfigurationLevel3.h"
 
@@ -67,6 +68,8 @@ int level = 1;
 COORD obstacles[MAX_OBSTACLES];
 int activeObstacleCount = 0;
 
+int currentGameSpeed = GAME_SPEED;
+
 void ShowConsoleCursor(bool showFlag)
 {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -83,6 +86,7 @@ void initGame()
     gameOver = false;
     initSnake();
     initFood();
+    initPowerUps();
     ShowConsoleCursor(false);
 }
 
@@ -147,7 +151,12 @@ void render()
 
     for (int i = 0; i < GAME_WIDTH + 2; i++)
         cout << "#";
-    cout << "\n\nScore: " << score << "  Level: " << level << endl;
+    cout << "\n\nScore: " << score << "  Level: " << level;
+    if (doubleScoreActive)
+    {
+        cout << "  [2x SCORE ACTIVE!]";
+    }
+    cout << endl;
 }
 
 void input()
@@ -193,7 +202,16 @@ void gameLogic()
 
     if (checkEatFood(getFoodPos()))
     {
-        score += POINTS_PER_FOOD;
+
+        int pointsEarned = POINTS_PER_FOOD;
+
+        // Apply double score if active
+        if (doubleScoreActive)
+        {
+            pointsEarned *= 2;
+        }
+
+        score += pointsEarned;
         spawnFood();
         increaseSnakeLength();
 
@@ -208,23 +226,20 @@ void gameLogic()
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
             cout << "LEVEL 2!";
             Sleep(2000);
-
-            
         }
 
         if (score >= POINTS_FOR_LEVEL_3 && level == 2)
-            {
-                level = 3;
-                configurationLevel3();
-                for (int i = 0; i < obstacleCountlevel3; i++)
-                    obstacles[i] = level3Obstacles[i];
-                activeObstacleCount = obstacleCountlevel3;
-                initGame();
-                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
-                cout << "LEVEL 3!";
-                Sleep(2000);
-            }
-            
+        {
+            level = 3;
+            configurationLevel3();
+            for (int i = 0; i < obstacleCountlevel3; i++)
+                obstacles[i] = level3Obstacles[i];
+            activeObstacleCount = obstacleCountlevel3;
+            initGame();
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
+            cout << "LEVEL 3!";
+            Sleep(2000);
+        }
     }
 }
 
@@ -279,9 +294,13 @@ int main()
     while (!gameOver)
     {
         render();
-        Sleep(GAME_SPEED);
+        renderPowerUps();
+        Sleep(currentGameSpeed);
         input();
         gameLogic();
+        spawnPowerUp();
+        clearExpiredPowerUps();
+        checkPowerUpCollision(getSnakeHead(), &score, &currentGameSpeed);
     }
     cout << "End of the Game :(" << endl;
     return 0;
