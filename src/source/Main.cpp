@@ -76,10 +76,12 @@ void ShowConsoleCursor(bool showFlag)
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
+
+
 void initGame()
 {
     system("cls");
-    score = 0;
+    score = 0; // Just change it for testing purposes
     gameOver = false;
     initSnake();
     initFood();
