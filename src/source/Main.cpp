@@ -5,7 +5,10 @@
 #include <time.h>
 #include "../headers/Snake.h"
 #include "../headers/Food.h"
+#include "../headers/PowerUps.h"
 #include "../headers/ConfigurationLevel2.h"
+
+
 
 using namespace std;
 
@@ -66,6 +69,8 @@ int level = 1;
 COORD obstacles[MAX_OBSTACLES];
 int activeObstacleCount = 0;
 
+int currentGameSpeed = GAME_SPEED;
+
 void ShowConsoleCursor(bool showFlag)
 {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -75,13 +80,16 @@ void ShowConsoleCursor(bool showFlag)
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
+
+
 void initGame()
 {
     system("cls");
-    score = 0;
+    score = 0; // Just change it for testing purposes
     gameOver = false;
     initSnake();
     initFood();
+    initPowerUps();
     ShowConsoleCursor(false);
 }
 
@@ -146,7 +154,12 @@ void render()
 
     for (int i = 0; i < GAME_WIDTH + 2; i++)
         cout << "#";
-    cout << "\n\nScore: " << score << "  Level: " << level << endl;
+    cout << "\n\nScore: " << score << "  Level: " << level;
+    if (doubleScoreActive)
+    {
+        cout << "  [2x SCORE ACTIVE!]";
+    }
+    cout << endl;
 }
 
 void input()
@@ -192,7 +205,16 @@ void gameLogic()
 
     if (checkEatFood(getFoodPos()))
     {
-        score += POINTS_PER_FOOD;
+
+        int pointsEarned = POINTS_PER_FOOD;
+
+        // Apply double score if active
+        if (doubleScoreActive)
+        {
+            pointsEarned *= 2;
+        }
+
+        score += pointsEarned;
         spawnFood();
         increaseSnakeLength();
 
@@ -262,9 +284,13 @@ int main()
     while (!gameOver)
     {
         render();
-        Sleep(GAME_SPEED);
+        renderPowerUps();
+        Sleep(currentGameSpeed);
         input();
         gameLogic();
+         spawnPowerUp();
+        clearExpiredPowerUps();
+        checkPowerUpCollision(getSnakeHead(), &score, &currentGameSpeed);
     }
     cout << "End of the Game :(" << endl;
     return 0;

@@ -3,6 +3,8 @@
 COORD level2Obstacles[MAX_OBSTACLES];
 int obstacleCountlevel2 = 0;
 
+// Function to configure the obstacles for level 2
+// This function sets the positions of the obstacles in the level 2 configuration
 void configurationLevel2()
 {
     int index = 0;
