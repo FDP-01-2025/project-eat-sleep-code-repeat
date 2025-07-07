@@ -111,24 +111,24 @@ void setupLevel(int selectedLevel)
 {
     level = selectedLevel;
     activeObstacleCount = 0; // Reset obstacles
-    
-    switch(selectedLevel)
+
+    switch (selectedLevel)
     {
-        case 1:
-            // No reset score here if you want to keep it persistent
-            break;
-        case 2:
-            configurationLevel2();
-            for (int i = 0; i < obstacleCountlevel2; i++)
-                obstacles[i] = level2Obstacles[i];
-            activeObstacleCount = obstacleCountlevel2;
-            break;
-        case 3:
-            configurationLevel3();
-            for (int i = 0; i < obstacleCountlevel3; i++)
-                obstacles[i] = level3Obstacles[i];
-            activeObstacleCount = obstacleCountlevel3;
-            break;
+    case 1:
+        // No reset score here if you want to keep it persistent
+        break;
+    case 2:
+        configurationLevel2();
+        for (int i = 0; i < obstacleCountlevel2; i++)
+            obstacles[i] = level2Obstacles[i];
+        activeObstacleCount = obstacleCountlevel2;
+        break;
+    case 3:
+        configurationLevel3();
+        for (int i = 0; i < obstacleCountlevel3; i++)
+            obstacles[i] = level3Obstacles[i];
+        activeObstacleCount = obstacleCountlevel3;
+        break;
     }
 }
 
@@ -213,11 +213,33 @@ void render()
     for (int i = 0; i < GAME_WIDTH + 2; i++)
         cout << "#";
     cout << "\n\nScore: " << score << "  Level: " << level;
-    if (doubleScoreActive)
+
+    // Show active effect
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD messagePos = {0, GAME_HEIGHT + 4};
+    SetConsoleCursorPosition(hConsole, messagePos);
+
+    
+    cout << "                                                      ";
+
+    
+    if (!currentEffectMessage.empty())
     {
-        cout << "  [2x SCORE ACTIVE!]";
+        SetConsoleCursorPosition(hConsole, messagePos);
+
+        // Cambiar color según el tipo de mensaje
+        if (currentEffectMessage.find("SPEED") != string::npos)
+        {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        }
+        else if (currentEffectMessage.find("2x") != string::npos)
+        {
+            SetConsoleTextAttribute(hConsole, MUSTARD_YELLOW);
+        }
+
+        cout << currentEffectMessage;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     }
-    cout << endl;
 }
 
 void input()

@@ -3,8 +3,13 @@
 
 #include <windows.h>
 #include <time.h>
-#include "Config.h"
 #include <string>
+#include "Config.h"
+#include "../headers/Snake.h"
+#include "../headers/Food.h"
+#include "../headers/PowerUps.h"
+#include "../headers/ConfigurationLevel2.h"
+#include "../headers/ConfigurationLevel3.h"
 
 // Power-up types
 typedef enum {

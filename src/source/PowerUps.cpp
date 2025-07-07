@@ -67,8 +67,6 @@ void spawnPowerUp()
                 newPos.X = rand() % GAME_WIDTH;
                 newPos.Y = rand() % GAME_HEIGHT;
                 validPosition = true;
-
-                // TODO: Add collision checks with snake, food, obstacles
             }
 
             activePowerUps[i].position = newPos;
@@ -153,12 +151,12 @@ void renderPowerUps()
             {
             case PU_SPEED_UP:
                 SetConsoleTextAttribute(hConsole, FOREST_GREEN);
-                std::cout << "↑";
+                std::cout << "^";
                 break;
 
             case PU_SPEED_DOWN:
                 SetConsoleTextAttribute(hConsole, DARK_RED);
-                std::cout << "↓";
+                std::cout << "v";
                 break;
 
             case PU_DOUBLE_SCORE:
