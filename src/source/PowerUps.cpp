@@ -1,11 +1,16 @@
 #include "../headers/PowerUps.h"
 #include <stdlib.h>
 #include <iostream>
+#include <string>
 
 PowerUp activePowerUps[MAX_ACTIVE_POWERUPS]; // Array for active power-ups
 time_t lastSpawnTime = 0;                    // Last spawn time
 bool doubleScoreActive = false;              // Double score state
 time_t doubleScoreEndTime = 0;               // Double score expiration
+
+bool speedChanged = false;
+time_t effectEndTime = 0;
+std::string currentEffectMessage = "";
 
 // Custom color definitions
 #define DARK_RED BACKGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_INTENSITY
@@ -95,29 +100,40 @@ void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
             case PU_SPEED_UP:
                 *gameSpeed -= SPEED_CHANGE_AMOUNT;
                 if (*gameSpeed < 20)
-                    *gameSpeed = 20; // Minimum speed limit
+                    *gameSpeed = 20;
+                speedChanged = true;
+                currentEffectMessage = "SPEED INCREASED!";
                 break;
 
             case PU_SPEED_DOWN:
                 *gameSpeed += SPEED_CHANGE_AMOUNT;
                 if (*gameSpeed > 150)
-                    *gameSpeed = 150; // Maximum speed limit
+                    *gameSpeed = 150;
+                speedChanged = true;
+                currentEffectMessage = "SPEED DECREASED!";
                 break;
 
             case PU_DOUBLE_SCORE:
                 doubleScoreActive = true;
-                doubleScoreEndTime = currentTime + DOUBLE_SCORE_DURATION;
+                currentEffectMessage = "2x SCORE ACTIVATED!";
                 break;
             }
 
-            activePowerUps[i].active = false; // Deactivate collected power-up
+            effectEndTime = currentTime + 2;
+            activePowerUps[i].active = false;
         }
     }
 
+    if (currentTime >= effectEndTime) {
+        currentEffectMessage = "";
+        speedChanged = false;
+    }
+    
     // Check if double score has expired
-    if (doubleScoreActive && currentTime >= doubleScoreEndTime)
-    {
+    if (doubleScoreActive && currentTime >= doubleScoreEndTime) {
         doubleScoreActive = false;
+        currentEffectMessage = "2x SCORE ENDED!";
+        effectEndTime = currentTime + 2;
     }
 }
 
