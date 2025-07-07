@@ -1,0 +1,180 @@
+#include "../headers/MenuManager.h"
+#include "../headers/Player.h"
+#include <iostream>
+#include <conio.h>
+#include <cstdlib>
+#include <windows.h>
+
+using namespace std;
+
+MenuManager::MenuManager() {
+    selectedLevel = 1;
+}
+string MenuManager::getPlayerNameValue() const {
+    return playerName;
+}
+void MenuManager::showStartMenu() {
+    system("cls");
+    cout << "*---------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "|                                                                                                                                             |" << endl;
+    cout << "| *********  * *         *          *          *       *  *         *  **********  *      *  **********  * *         *  **********  ********* |" << endl;
+    cout << "| *          *  *        *         * *         *     *     *       *       **      *      *      **      *  *        *  **          *         |" << endl;
+    cout << "| *          *   *       *        *   *        *   *        *     *        **      *      *      **      *   *       *  **          *         |" << endl;
+    cout << "| *          *    *      *       *     *       * *           *   *         **      *      *      **      *    *      *  **          *         |" << endl;
+    cout << "| *********  *     *     *      *       *      * *            ***          **      ********      **      *     *     *  **  ******  ********* |" << endl;
+    cout << "|         *  *      *    *     * ******* *     *   *           *           **      *      *      **      *      *    *  **      **          * |" << endl;
+    cout << "|         *  *       *   *    *           *    *     *         *           **      *      *      **      *       *   *  **      **          * |" << endl;
+    cout << "|         *  *        *  *   *             *   *       *       *           **      *      *      **      *        *  *  **      **          * |" << endl;
+    cout << "| *********  *         * *  *               *  *         *     *           **      *      *  **********  *         * *  **********  ********* |" << endl;
+    cout << "|                                                                                                                                             |" << endl;
+    cout << "*---------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "                                                         PRESS ENTER TO START!                                                              \n";
+    cout << "                                                      PRESS SPACE FOR HOW TO PLAY!                                                          \n";
+    cout << "                                                      PRESS L FOR LEVEL SELECTOR!                                                           \n";
+    cout << "                                                      PRESS H FOR HIGH SCORES!                                                              \n";
+    cout << "                                                      PRESS X FOR EXIT THE GAME :(                                                          \n";
+}
+
+void MenuManager::showHowToPlayMenu() {
+    system("cls");
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "|                                                                                                                            |" << endl;
+    cout << "| *       *     ******     **       **     ***********     ******        *********    **              ***      **         ** |" << endl;
+    cout << "| *       *   **      **   **       **         **        **      **      **       **  **             **  **     **       **  |" << endl;
+    cout << "| *       *  **        **  **       **         **       **        **     **       **  **            **    **     **     **   |" << endl;
+    cout << "| *********  **        **  **   *   **         **       **        **     **********   **           **********      **  **    |" << endl;
+    cout << "| *       *  **        **  **  ***  **         **       **        **     **           **           **      **        **      |" << endl;
+    cout << "| *       *  **        **  ** ** ** **         **       **        **     **           **           **      **        **      |" << endl;
+    cout << "| *       *   **      **   ***********         **        **      **      **           **           **      **        **      |" << endl;
+    cout << "| *       *     ******     ***     ***         **          ******        **           ***********  **      **        **      |" << endl;
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "                                                        *---------*                                                           " << endl;
+    cout << "                                                        |CONTROLS:|                                                        \n";
+    cout << "                                                        *---------*                                                           " << endl;
+    cout << "                                                       W - MOVE UP                                                         \n";
+    cout << "                                                       A - MOVE LEFT                                                       \n";
+    cout << "                                                       S - MOVE DOWN                                                       \n";
+    cout << "                                                       D - MOVE RIGHT                                                      \n";
+    cout << "                                                                                                                           \n";
+    cout << "                                          GOAL: EAT TO GROW MORE AD SURPASS THE LEVELS!                                    \n";
+    cout << "                                                                                                                           \n";
+    cout << "                                         GAME OVER: IF YOU HIT YOUR OWN TAIL OR THE WALLS!                                 \n";
+    cout << "                                                                                                                           \n";
+    cout << "                                                 PRESS O TO RETURN TO THE MENU.                                            \n";
+}
+
+void MenuManager::showLevelSelectorMenu() {
+    system("cls");
+    cout << "*----------------------------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "|                                                                                                                                                                |" << endl;
+    cout << "| **         **********   **            ** **********  **          *********  **********   **        **********  **********  **********   *******    ******      |" << endl;
+    cout << "| **         **            **          **  **          **          *          **           **        **          **             **       **     **   *     **    |" << endl;
+    cout << "| **         **             **        **   **          **          *          **           **        **          **             **      **       **  *     **    |" << endl;
+    cout << "| **         **********      **      **    **********  **          *********  **********   **        *********   **             **      **       **  ******      |" << endl;
+    cout << "| **         **               **    **     **          **                  *  **           **        **          **             **      **       **  *     **    |" << endl;
+    cout << "| **         **                **  **      **          **                  *  **           **        **          **             **       **     **   *      **   |" << endl;
+    cout << "| *********  **********          **        **********  *********   *********  **********   ********* **********  **********     **        *******    *       **  |" << endl;
+    cout << "*----------------------------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "                                                                                                                                                               \n";
+    cout << "                                                                 *----------------*                                                                            \n";
+    cout << "                                                                 |     LEVELS:    |                                                                            \n";
+    cout << "                                                                 *----------------*                                                                            \n";
+    cout << "                                                                                                                                                               \n";
+    cout << "                                                                 PRESS 1 FOR LEVEL 1                                                                           \n";
+    cout << "                                                                 PRESS 2 FOR LEVEL 2                                                                           \n";
+    cout << "                                                                 PRESS 3 FOR LEVEL 3                                                                           \n";
+    cout << "                                                                                                                                                               \n";
+    cout << "                                                              PRESS O TO RETURN TO MENU                                                                        \n";
+}
+
+void MenuManager::getPlayerName() {
+    system("cls");
+    do {
+        system("cls");
+        cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+        cout << "|                                                     ENTER YOUR NAME                                                        |" << endl;
+        cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+
+        if (!playerName.empty()) {
+            cout << "\nName cannot be empty. Please enter a valid name.\n\n";
+        }
+
+        cout << "\nPlease enter your name: ";
+        getline(cin, playerName);
+    } while (playerName.empty());
+}
+
+void MenuManager::handleMainMenu() {
+    bool inMainMenu = true;
+    
+    while (inMainMenu) {
+        showStartMenu();
+        
+        while (true) {
+            if (_kbhit()) {
+                char key = _getch();
+                if (key == 13) { // ENTER
+                    inMainMenu = false;
+                    break;
+                }
+                else if (key == ' ') { // SPACE
+                    handleHowToPlayMenu();
+                    break;
+                }
+                else if (key == 'l' || key == 'L') { // L for Level Selector
+                    handleLevelSelectorMenu();
+                    if (selectedLevel != 1) { // If a level was selected
+                        inMainMenu = false;
+                    }
+                    break;
+                }
+                else if (key == 'h' || key == 'H') { // H for High Scores
+                    Player::showHighScores();
+                    break;
+                }
+                else if (key == 'x' || key == 'X') { // X for exit
+                    exit(0);
+                }
+            }
+        }
+    }
+}
+
+
+void MenuManager::handleHowToPlayMenu() {
+    showHowToPlayMenu();
+    
+    while (true) {
+        if (_kbhit()) {
+            char key = _getch();
+            if (key == 'o' || key == 'O') {
+                break;
+            }
+        }
+    }
+}
+
+void MenuManager::handleLevelSelectorMenu() {
+    showLevelSelectorMenu();
+    
+    while (true) {
+        if (_kbhit()) {
+            char key = _getch();
+            if (key == '1') {
+                selectedLevel = 1;
+                break;
+            }
+            else if (key == '2') {
+                selectedLevel = 2;
+                break;
+            }
+            else if (key == '3') {
+                selectedLevel = 3;
+                break;
+            }
+            else if (key == 'o' || key == 'O') {
+                break; // Return to main menu without changing level
+            }
+        }
+    }
+}
