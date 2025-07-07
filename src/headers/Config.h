@@ -17,6 +17,6 @@
 // Level progression
 #define POINTS_PER_FOOD 10
 #define POINTS_FOR_LEVEL_2 50
-#define POINTS_FOR_LEVEL_3 50
+#define POINTS_FOR_LEVEL_3 100
 
 #endif /* CONFIG_H_ */
