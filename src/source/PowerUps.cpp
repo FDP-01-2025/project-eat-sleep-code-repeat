@@ -4,6 +4,10 @@
 #include <string>
 #include <algorithm>
 
+// 
+extern COORD obstacles[MAX_OBSTACLES];
+extern int activeObstacleCount;
+
 PowerUp activePowerUps[MAX_ACTIVE_POWERUPS]; // Array for active power-ups
 time_t lastSpawnTime = 0;                    // Last spawn time
 bool doubleScoreActive = false;              // Double score state
@@ -13,7 +17,45 @@ std::string activeEffectMessage = "";
 time_t messageEndTime = 0;
 bool showingMessage = false;
 
-// Initialize power-up system
+// Función auxiliar para validar si la posición es válida para un power-up
+bool isPositionValid(COORD pos)
+{
+    // Evitar bordes (muros)
+    if (pos.X == 0 || pos.X == GAME_WIDTH - 1 || pos.Y == 0 || pos.Y == GAME_HEIGHT - 1)
+        return false;
+
+    // Evitar obstáculos
+    for (int i = 0; i < activeObstacleCount; i++)
+    {
+        if (obstacles[i].X == pos.X && obstacles[i].Y == pos.Y)
+            return false;
+    }
+
+    // Evitar serpiente
+    COORD snakeBody[MAX_SNAKE_LENGTH];
+    int snakeLength;
+    getSnakeBody(snakeBody, &snakeLength);
+    for (int i = 0; i < snakeLength; i++)
+    {
+        if (snakeBody[i].X == pos.X && snakeBody[i].Y == pos.Y)
+            return false;
+    }
+
+    // Evitar comida
+    COORD foodPos = getFoodPos();
+    if (pos.X == foodPos.X && pos.Y == foodPos.Y)
+        return false;
+
+    // Evitar otros power-ups activos
+    for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
+    {
+        if (activePowerUps[i].active && activePowerUps[i].position.X == pos.X && activePowerUps[i].position.Y == pos.Y)
+            return false;
+    }
+
+    return true;
+}
+
 void initPowerUps()
 {
     for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
@@ -24,15 +66,12 @@ void initPowerUps()
     doubleScoreActive = false;
 }
 
-// Spawn new power-ups when conditions are met
 void spawnPowerUp()
 {
     time_t currentTime = time(NULL);
 
     if (difftime(currentTime, lastSpawnTime) < POWERUP_SPAWN_INTERVAL)
-    {
         return;
-    }
 
     int activeCount = 0;
     for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
@@ -42,46 +81,22 @@ void spawnPowerUp()
     }
 
     if (activeCount >= MAX_ACTIVE_POWERUPS)
-    {
         return;
-    }
 
     for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
     {
         if (!activePowerUps[i].active)
         {
-            bool validPosition = false;
-            COORD newPos;
-            int attempts = 0;
             const int MAX_ATTEMPTS = 50;
+            int attempts = 0;
+            COORD newPos;
+            bool validPosition = false;
 
             while (!validPosition && attempts < MAX_ATTEMPTS)
             {
                 newPos.X = rand() % GAME_WIDTH;
                 newPos.Y = rand() % GAME_HEIGHT;
-                validPosition = true;
-
-                COORD snakeBody[MAX_SNAKE_LENGTH];
-                int snakeLength;
-                getSnakeBody(snakeBody, &snakeLength);
-                for (int j = 0; j < snakeLength; j++)
-                {
-                    if (newPos.X == snakeBody[j].X && newPos.Y == snakeBody[j].Y)
-                    {
-                        validPosition = false;
-                        break;
-                    }
-                }
-
-                if (validPosition)
-                {
-                    COORD foodPos = getFoodPos();
-                    if (newPos.X == foodPos.X && newPos.Y == foodPos.Y)
-                    {
-                        validPosition = false;
-                    }
-                }
-
+                validPosition = isPositionValid(newPos);
                 attempts++;
             }
 
@@ -98,7 +113,6 @@ void spawnPowerUp()
     }
 }
 
-// Check if snake head collides with any power-up
 void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
 {
     time_t currentTime = time(NULL);
@@ -132,7 +146,7 @@ void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
                     activeEffectMessage = "|2x SCORE!|";
                     messageEndTime = doubleScoreEndTime;
                     showingMessage = true;
-                    break; 
+                    break;
                 }
 
                 activePowerUps[i].active = false;
@@ -153,7 +167,6 @@ void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
     }
 }
 
-// Render all active power-ups
 void renderPowerUps()
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -168,12 +181,12 @@ void renderPowerUps()
             {
             case PU_SPEED_UP:
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-                std::cout << "^"; // Up arrow
+                std::cout << "^";
                 break;
 
             case PU_SPEED_DOWN:
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-                std::cout << "v"; // Down arrow
+                std::cout << "v";
                 break;
 
             case PU_DOUBLE_SCORE:
@@ -184,11 +197,9 @@ void renderPowerUps()
         }
     }
 
-    // Reset to default console color
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
 
-// Remove power-ups that have been on screen too long
 void clearExpiredPowerUps()
 {
     time_t currentTime = time(NULL);
