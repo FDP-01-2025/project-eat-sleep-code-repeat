@@ -92,13 +92,14 @@ void showLevelSelectorMenu()
     cout << "                                                      PRESS 2 FOR LEVEL 2                                                  \n";
     cout << "                                                      PRESS 3 FOR LEVEL 3                                                  \n";
     cout << "                                                                                                                           \n";
-    cout << "                                                      PRESS O TO RETURN TO MENU                                            \n";
+    cout << "                                                    PRESS O TO RETURN TO MENU                                              \n";
 }
 
 // Global variables
 bool gameOver = false;
 int score = 0;
 int level = 1;
+string playerName;
 
 COORD obstacles[MAX_OBSTACLES];
 int activeObstacleCount = 0;
@@ -219,7 +220,7 @@ void render()
 
     for (int i = 0; i < GAME_WIDTH + 2; i++)
         cout << "#";
-    cout << "\n\nScore: " << score << "  Level: " << level;
+    cout << "\n\nPlayer: " << playerName << "  Score: " << score << "  Level: " << level << "\n";
 
     // Show active effect message
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -350,13 +351,21 @@ int main()
 
     // Pedir nombre del jugador
     system("cls");
-    string playerName;
-    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
-    cout << "|                                                     ENTER YOUR NAME                                                        |" << endl;
-    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
-    cout << "\n\nPlease enter your name: ";
-    getline(cin, playerName);
+    do
+    {
+        system("cls"); // Limpia la pantalla
+        cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+        cout << "|                                                     ENTER YOUR NAME                                                        |" << endl;
+        cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
 
+        if (!playerName.empty())
+        {
+            cout << "\nName cannot be empty. Please enter a valid name.\n\n";
+        }
+
+        cout << "\nPlease enter your name: ";
+        getline(cin, playerName);
+    } while (playerName.empty());
     bool inMainMenu = true;
     int selectedLevel = 1; // Default level
 
