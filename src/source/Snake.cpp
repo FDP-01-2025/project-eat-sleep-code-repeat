@@ -24,8 +24,18 @@ void initSnake()
 // Changes the direction of the snake.
 void changeDirection(char newDirection)
 {
+    // Do not allow turning in direct opposite direction
+    if ((snakeDirection == 'U' && newDirection == 'D') ||
+        (snakeDirection == 'D' && newDirection == 'U') ||
+        (snakeDirection == 'L' && newDirection == 'R') ||
+        (snakeDirection == 'R' && newDirection == 'L'))
+    {
+        return; // Ignore Invalid Change
+    }
+
     snakeDirection = newDirection;
 }
+
 
 // Moves the snake according to its current direction.
 void moveSnake()
