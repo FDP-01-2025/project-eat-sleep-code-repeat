@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <time.h>
 #include "Config.h"
+#include <string>
 
 // Power-up types
 typedef enum {
@@ -38,4 +39,8 @@ void clearExpiredPowerUps();             // Remove expired power-ups
 extern bool doubleScoreActive;      // Global double score state
 extern time_t doubleScoreEndTime;   // When double score expires
 
-#endif /* POWER_UPS_H_ */
+extern bool speedChanged;
+extern time_t effectEndTime;
+extern std::string currentEffectMessage;
+
+#endif
