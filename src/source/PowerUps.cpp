@@ -2,20 +2,16 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 PowerUp activePowerUps[MAX_ACTIVE_POWERUPS]; // Array for active power-ups
 time_t lastSpawnTime = 0;                    // Last spawn time
 bool doubleScoreActive = false;              // Double score state
 time_t doubleScoreEndTime = 0;               // Double score expiration
 
-bool speedChanged = false;
-time_t effectEndTime = 0;
-std::string currentEffectMessage = "";
-
-// Custom color definitions
-#define DARK_RED BACKGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_INTENSITY
-#define FOREST_GREEN FOREGROUND_GREEN | FOREGROUND_INTENSITY
-#define MUSTARD_YELLOW FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY
+std::string activeEffectMessage = "";
+time_t messageEndTime = 0;
+bool showingMessage = false;
 
 // Initialize power-up system
 void initPowerUps()
@@ -33,13 +29,11 @@ void spawnPowerUp()
 {
     time_t currentTime = time(NULL);
 
-    // Check if ready to spawn new power-up (12 second interval)
     if (difftime(currentTime, lastSpawnTime) < POWERUP_SPAWN_INTERVAL)
     {
         return;
     }
 
-    // Count active power-ups
     int activeCount = 0;
     for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
     {
@@ -47,34 +41,58 @@ void spawnPowerUp()
             activeCount++;
     }
 
-    // Don't spawn if we already have max active power-ups
     if (activeCount >= MAX_ACTIVE_POWERUPS)
     {
         return;
     }
 
-    // Find empty slot and spawn new power-up
     for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
     {
         if (!activePowerUps[i].active)
         {
-            // Generate random position
             bool validPosition = false;
             COORD newPos;
+            int attempts = 0;
+            const int MAX_ATTEMPTS = 50;
 
-            while (!validPosition)
+            while (!validPosition && attempts < MAX_ATTEMPTS)
             {
                 newPos.X = rand() % GAME_WIDTH;
                 newPos.Y = rand() % GAME_HEIGHT;
                 validPosition = true;
+
+                COORD snakeBody[MAX_SNAKE_LENGTH];
+                int snakeLength;
+                getSnakeBody(snakeBody, &snakeLength);
+                for (int j = 0; j < snakeLength; j++)
+                {
+                    if (newPos.X == snakeBody[j].X && newPos.Y == snakeBody[j].Y)
+                    {
+                        validPosition = false;
+                        break;
+                    }
+                }
+
+                if (validPosition)
+                {
+                    COORD foodPos = getFoodPos();
+                    if (newPos.X == foodPos.X && newPos.Y == foodPos.Y)
+                    {
+                        validPosition = false;
+                    }
+                }
+
+                attempts++;
             }
 
-            activePowerUps[i].position = newPos;
-            activePowerUps[i].type = (PowerUpType)(rand() % PU_TYPE_COUNT);
-            activePowerUps[i].active = true;
-            activePowerUps[i].spawnTime = currentTime;
-
-            lastSpawnTime = currentTime;
+            if (validPosition)
+            {
+                activePowerUps[i].position = newPos;
+                activePowerUps[i].type = (PowerUpType)(rand() % PU_TYPE_COUNT);
+                activePowerUps[i].active = true;
+                activePowerUps[i].spawnTime = currentTime;
+                lastSpawnTime = currentTime;
+            }
             break;
         }
     }
@@ -87,51 +105,51 @@ void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
 
     for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
     {
-        if (activePowerUps[i].active &&
-            headPos.X == activePowerUps[i].position.X &&
-            headPos.Y == activePowerUps[i].position.Y)
+        if (activePowerUps[i].active)
         {
+            bool collisionX = abs(headPos.X - activePowerUps[i].position.X) <= 1;
+            bool collisionY = abs(headPos.Y - activePowerUps[i].position.Y) <= 1;
 
-            // Apply power-up effect
-            switch (activePowerUps[i].type)
+            if (collisionX && collisionY)
             {
-            case PU_SPEED_UP:
-                *gameSpeed -= SPEED_CHANGE_AMOUNT;
-                if (*gameSpeed < 20)
-                    *gameSpeed = 20;
-                speedChanged = true;
-                currentEffectMessage = "SPEED INCREASED!";
-                break;
+                switch (activePowerUps[i].type)
+                {
+                case PU_SPEED_UP:
+                    *gameSpeed = std::max(MIN_GAME_SPEED, *gameSpeed - SPEED_CHANGE_AMOUNT);
+                    activeEffectMessage = "|SPEED BOOST!|";
+                    messageEndTime = currentTime + EFFECT_DURATION;
+                    break;
 
-            case PU_SPEED_DOWN:
-                *gameSpeed += SPEED_CHANGE_AMOUNT;
-                if (*gameSpeed > 150)
-                    *gameSpeed = 150;
-                speedChanged = true;
-                currentEffectMessage = "SPEED DECREASED!";
-                break;
+                case PU_SPEED_DOWN:
+                    *gameSpeed = std::min(MAX_GAME_SPEED, *gameSpeed + SPEED_CHANGE_AMOUNT);
+                    activeEffectMessage = "|SPEED REDUCED!|";
+                    messageEndTime = currentTime + EFFECT_DURATION;
+                    break;
 
-            case PU_DOUBLE_SCORE:
-                doubleScoreActive = true;
-                currentEffectMessage = "2x SCORE ACTIVATED!";
+                case PU_DOUBLE_SCORE:
+                    doubleScoreActive = true;
+                    doubleScoreEndTime = currentTime + DOUBLE_SCORE_DURATION;
+                    activeEffectMessage = "|2x SCORE!|";
+                    messageEndTime = doubleScoreEndTime;
+                    showingMessage = true;
+                    break; 
+                }
+
+                activePowerUps[i].active = false;
                 break;
             }
-
-            effectEndTime = currentTime + 2;
-            activePowerUps[i].active = false;
         }
     }
 
-    if (currentTime >= effectEndTime) {
-        currentEffectMessage = "";
-        speedChanged = false;
+    if (showingMessage && currentTime >= messageEndTime)
+    {
+        activeEffectMessage = "";
+        showingMessage = false;
     }
-    
-    // Check if double score has expired
-    if (doubleScoreActive && currentTime >= doubleScoreEndTime) {
+
+    if (doubleScoreActive && currentTime >= doubleScoreEndTime)
+    {
         doubleScoreActive = false;
-        currentEffectMessage = "2x SCORE ENDED!";
-        effectEndTime = currentTime + 2;
     }
 }
 
@@ -146,21 +164,20 @@ void renderPowerUps()
         {
             SetConsoleCursorPosition(hConsole, activePowerUps[i].position);
 
-            // Set color and symbol based on power-up type
             switch (activePowerUps[i].type)
             {
             case PU_SPEED_UP:
-                SetConsoleTextAttribute(hConsole, FOREST_GREEN);
-                std::cout << "^";
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                std::cout << "^"; // Up arrow
                 break;
 
             case PU_SPEED_DOWN:
-                SetConsoleTextAttribute(hConsole, DARK_RED);
-                std::cout << "v";
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                std::cout << "v"; // Down arrow
                 break;
 
             case PU_DOUBLE_SCORE:
-                SetConsoleTextAttribute(hConsole, MUSTARD_YELLOW);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
                 std::cout << "2x";
                 break;
             }

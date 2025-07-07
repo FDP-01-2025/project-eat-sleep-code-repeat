@@ -1,5 +1,6 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
+#include <windows.h>
 
 // Game window dimensions
 #define GAME_WIDTH 60

@@ -214,30 +214,32 @@ void render()
         cout << "#";
     cout << "\n\nScore: " << score << "  Level: " << level;
 
-    // Show active effect
+    // Show active effect message
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD messagePos = {0, GAME_HEIGHT + 4};
+
+    // Clear message line
     SetConsoleCursorPosition(hConsole, messagePos);
+    cout << string(GAME_WIDTH, ' ');
 
-    
-    cout << "                                                      ";
-
-    
-    if (!currentEffectMessage.empty())
+    if (showingMessage)
     {
         SetConsoleCursorPosition(hConsole, messagePos);
 
-        // Cambiar color según el tipo de mensaje
-        if (currentEffectMessage.find("SPEED") != string::npos)
+        if (activeEffectMessage.find("BOOST") != string::npos)
         {
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         }
-        else if (currentEffectMessage.find("2x") != string::npos)
+        else if (activeEffectMessage.find("REDUCED") != string::npos)
         {
-            SetConsoleTextAttribute(hConsole, MUSTARD_YELLOW);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        }
+        else if (activeEffectMessage.find("2x") != string::npos)
+        {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         }
 
-        cout << currentEffectMessage;
+        cout << activeEffectMessage;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     }
 }
@@ -287,7 +289,7 @@ void gameLogic()
     {
         int pointsEarned = POINTS_PER_FOOD;
 
-        // Apply double score if active
+        // Apply 2x multiplier if active
         if (doubleScoreActive)
         {
             pointsEarned *= 2;

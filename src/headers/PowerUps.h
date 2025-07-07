@@ -37,15 +37,19 @@ void clearExpiredPowerUps();             // Remove expired power-ups
 // Configuration
 #define POWERUP_DURATION 8          // Seconds power-up stays on screen
 #define POWERUP_SPAWN_INTERVAL 12   // Seconds between power-up spawns
-#define SPEED_CHANGE_AMOUNT 15      // Speed change amount (ms)
 #define DOUBLE_SCORE_DURATION 10    // Seconds double score remains active
 #define MAX_ACTIVE_POWERUPS 2       // Maximum active power-ups at once
+
+#define SPEED_CHANGE_AMOUNT 30      // Increased from 15 for more dramatic effect
+#define MIN_GAME_SPEED 15           // Faster maximum speed (lower = faster)
+#define MAX_GAME_SPEED 200          // Slower minimum speed (higher = slower)
+#define EFFECT_DURATION 6           // Duration for speed effects (seconds)
+
 
 extern bool doubleScoreActive;      // Global double score state
 extern time_t doubleScoreEndTime;   // When double score expires
 
-extern bool speedChanged;
-extern time_t effectEndTime;
-extern std::string currentEffectMessage;
-
+extern std::string activeEffectMessage;
+extern time_t messageEndTime;
+extern bool showingMessage;
 #endif
