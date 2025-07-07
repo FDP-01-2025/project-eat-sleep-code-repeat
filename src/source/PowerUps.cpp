@@ -4,7 +4,7 @@
 #include <string>
 #include <algorithm>
 
-// 
+//
 extern COORD obstacles[MAX_OBSTACLES];
 extern int activeObstacleCount;
 
@@ -132,12 +132,14 @@ void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
                     *gameSpeed = std::max(MIN_GAME_SPEED, *gameSpeed - SPEED_CHANGE_AMOUNT);
                     activeEffectMessage = "|SPEED BOOST!|";
                     messageEndTime = currentTime + EFFECT_DURATION;
+                    showingMessage = true;
                     break;
 
                 case PU_SPEED_DOWN:
                     *gameSpeed = std::min(MAX_GAME_SPEED, *gameSpeed + SPEED_CHANGE_AMOUNT);
                     activeEffectMessage = "|SPEED REDUCED!|";
                     messageEndTime = currentTime + EFFECT_DURATION;
+                    showingMessage = true;
                     break;
 
                 case PU_DOUBLE_SCORE:
