@@ -3,11 +3,17 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string>
+#include <fstream>
+#include <iomanip>
+#include <vector>
+#include <algorithm>
 #include "../headers/Snake.h"
 #include "../headers/Food.h"
 #include "../headers/PowerUps.h"
 #include "../headers/ConfigurationLevel2.h"
 #include "../headers/ConfigurationLevel3.h"
+#include "../headers/Player.h"
 
 using namespace std;
 
@@ -30,6 +36,7 @@ void showStartMenu()
     cout << "                                                         PRESS ENTER TO START!                                                              \n";
     cout << "                                                      PRESS SPACE FOR HOW TO PLAY!                                                          \n";
     cout << "                                                      PRESS L FOR LEVEL SELECTOR!                                                          \n";
+    cout << "                                                      PRESS H FOR HIGH SCORES!                                                             \n";
     cout << "                                                      PRESS X FOR EXIT THE GAME :(                                                          \n";
 }
 
@@ -334,29 +341,21 @@ void gameLogic()
             cout << "LEVEL 3!";
             Sleep(2000);
         }
-        else if (level == 2 && score >= POINTS_FOR_LEVEL_3)
-        {
-            level = 3;
-            configurationLevel3();
-            for (int i = 0; i < obstacleCountlevel3; i++)
-                obstacles[i] = level3Obstacles[i];
-            activeObstacleCount = obstacleCountlevel3;
-
-            // Reset only the snake, keep the score
-            resetSnakeOnly();
-
-            // Clear screen and show level message
-            system("cls");
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
-            cout << "LEVEL 3!";
-            Sleep(2000);
-        }
     }
 }
 
 int main()
 {
     srand(time(0));
+
+    // Pedir nombre del jugador
+    system("cls");
+    string playerName;
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "|                                                     ENTER YOUR NAME                                                        |" << endl;
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "\n\nPlease enter your name: ";
+    getline(cin, playerName);
 
     bool inMainMenu = true;
     int selectedLevel = 1; // Default level
@@ -427,6 +426,11 @@ int main()
                         break; // Exit if level was selected
                     break;     // Return to main menu if 'O' was pressed
                 }
+                else if (key == 'h' || key == 'H') // KEY H for High Scores
+                {
+                    Player::showHighScores();
+                    break;
+                }
                 else if (key == 'x' || key == 'X') // KEY X
                 {
                     exit(0);
@@ -456,6 +460,23 @@ int main()
         checkPowerUpCollision(getSnakeHead(), &score, &currentGameSpeed);
     }
 
-    cout << "End of the Game :(" << endl;
+    // Guardar los datos del jugador
+    Player currentPlayer;
+    currentPlayer.name = playerName;
+    currentPlayer.score = score;
+    currentPlayer.level = level;
+    Player::saveToFile(currentPlayer);
+
+    // Mostrar mensaje de fin de juego con el puntaje
+    system("cls");
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "|                                                     GAME OVER                                                              |" << endl;
+    cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
+    cout << "\n\nPlayer: " << playerName << endl;
+    cout << "Final Score: " << score << endl;
+    cout << "Level Reached: " << level << endl;
+    cout << "\nPress any key to exit...";
+    _getch();
+
     return 0;
 }
