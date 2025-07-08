@@ -46,8 +46,34 @@ SnakyThings está desarrollado en C++ y se ejecuta únicamente en la consola, ut
 **Detalles y restricciones de implementación**:
 
  - ✅ La lógica del juego se implementa utilizando variables y tipos de datos básicos, arreglos, estructuras condicionales (if, else, switch), bucles (for, while, do while), manejo de archivos para guardar nombres de jugadores y puntajes en un archivo .txt, y funciones.
+   
+### 📝 Salida por Consola (`cout`)
+<img width="800" src="https://github.com/user-attachments/assets/c6d1a61e-3845-4ccf-9d74-20c4dd1992c8" alt="Ejemplo de implementación cout">  
+*Utilizado para toda la renderización de texto y elementos de interfaz*
 
--  ⚠️ No se usan: vectores, listas, árboles ni programación orientada a objetos. Esto mantiene el código simple, legible y fácil de modificar.
+### 🔁 Bucles Do-While
+<img width="800" src="https://github.com/user-attachments/assets/3191714a-5001-456e-bc8f-150674a3d2d8" alt="Ejemplo de bucle do-while">  
+*Estructura principal del juego y validación de entradas*
+
+### 📂 Manejo de Archivos
+<img width="800" src="https://github.com/user-attachments/assets/04606f41-b234-4fa5-bdbb-53cdeeade0b2" alt="Implementación de manejo de archivos">  
+*Almacenamiento de puntuaciones y récords*
+
+### 🔄 Bucles For
+<img width="800" src="https://github.com/user-attachments/assets/15b63cae-7ae9-4686-87c3-09e7b666d19d" alt="Ejemplo de bucle for">  
+*Generación de niveles y colocación de obstáculos*
+
+### ❓ Condicionales If-Else
+<img width="800" src="https://github.com/user-attachments/assets/3a17df08-d1f9-43cb-bf84-e38e7e93a006" alt="Implementación if-else">  
+*Gestión de estados del juego y detección de colisiones*
+
+### 🎚️ Estructuras Switch-Case
+<img width="800" src="https://github.com/user-attachments/assets/ef7fcea6-dcfc-468d-b7f8-76898fad111b" alt="Ejemplo switch-case">  
+*Navegación de menús y progresión entre niveles*
+
+### ⏳ Bucles While
+<img width="800" src="https://github.com/user-attachments/assets/08f10a14-ae14-4f11-a8ce-31d8b1e6913a" alt="Implementación while">  
+*Procesamiento de eventos y mecánicas temporizadas*
 ##
 
 ## 🖼️ Bocetos y Diseños Conceptuales:
