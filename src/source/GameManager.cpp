@@ -6,7 +6,8 @@
 
 using namespace std;
 
-GameManager::GameManager() {
+GameManager::GameManager()
+{
     gameOver = false;
     score = 0;
     level = 1;
@@ -17,7 +18,8 @@ GameManager::GameManager() {
 COORD obstacles[MAX_OBSTACLES];
 int activeObstacleCount = 0;
 
-void GameManager::ShowConsoleCursor(bool showFlag) {
+void GameManager::ShowConsoleCursor(bool showFlag)
+{
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
     GetConsoleCursorInfo(out, &cursorInfo);
@@ -25,11 +27,13 @@ void GameManager::ShowConsoleCursor(bool showFlag) {
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
-void GameManager::setupLevel(int selectedLevel) {
+void GameManager::setupLevel(int selectedLevel)
+{
     level = selectedLevel;
     activeObstacleCount = 0;
 
-    switch (selectedLevel) {
+    switch (selectedLevel)
+    {
     case 1:
         break;
     case 2:
@@ -47,7 +51,8 @@ void GameManager::setupLevel(int selectedLevel) {
     }
 }
 
-void GameManager::initGame() {
+void GameManager::initGame()
+{
     system("cls");
     gameOver = false;
     initSnake();
@@ -56,13 +61,15 @@ void GameManager::initGame() {
     ShowConsoleCursor(false);
 }
 
-void GameManager::resetSnakeOnly() {
+void GameManager::resetSnakeOnly()
+{
     initSnake();
     initFood();
     initPowerUps();
 }
 
-void GameManager::render() {
+void GameManager::render()
+{
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
 
     for (int i = 0; i < GAME_WIDTH + 2; i++)
@@ -75,8 +82,10 @@ void GameManager::render() {
     int length;
     getSnakeBody(body, &length);
 
-    for (int i = 0; i < GAME_HEIGHT; i++) {
-        for (int j = 0; j < GAME_WIDTH; j++) {
+    for (int i = 0; i < GAME_HEIGHT; i++)
+    {
+        for (int j = 0; j < GAME_WIDTH; j++)
+        {
             if (j == 0)
                 cout << "#";
 
@@ -84,10 +93,13 @@ void GameManager::render() {
                 cout << "O";
             else if (j == food.X && i == food.Y)
                 cout << "*";
-            else {
+            else
+            {
                 bool tailPart = false;
-                for (int k = 1; k < length; k++) {
-                    if (j == body[k].X && i == body[k].Y) {
+                for (int k = 1; k < length; k++)
+                {
+                    if (j == body[k].X && i == body[k].Y)
+                    {
                         cout << "o";
                         tailPart = true;
                         break;
@@ -95,9 +107,14 @@ void GameManager::render() {
                 }
 
                 bool isObstacle = false;
-                for (int o = 0; o < activeObstacleCount; o++) {
-                    if (j == obstacles[o].X && i == obstacles[o].Y) {
+                for (int o = 0; o < activeObstacleCount; o++)
+                {
+                    if (j == obstacles[o].X && i == obstacles[o].Y)
+                    {
+                        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
                         cout << "$";
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                         isObstacle = true;
                         break;
                     }
@@ -124,16 +141,20 @@ void GameManager::render() {
     SetConsoleCursorPosition(hConsole, messagePos);
     cout << string(GAME_WIDTH, ' ');
 
-    if (showingMessage) {
+    if (showingMessage)
+    {
         SetConsoleCursorPosition(hConsole, messagePos);
 
-        if (activeEffectMessage.find("BOOST") != string::npos) {
+        if (activeEffectMessage.find("BOOST") != string::npos)
+        {
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         }
-        else if (activeEffectMessage.find("REDUCED") != string::npos) {
+        else if (activeEffectMessage.find("REDUCED") != string::npos)
+        {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
         }
-        else if (activeEffectMessage.find("2x") != string::npos) {
+        else if (activeEffectMessage.find("2x") != string::npos)
+        {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         }
 
@@ -142,9 +163,12 @@ void GameManager::render() {
     }
 }
 
-void GameManager::input() {
-    if (_kbhit()) {
-        switch (_getch()) {
+void GameManager::input()
+{
+    if (_kbhit())
+    {
+        switch (_getch())
+        {
         case 'a':
             changeDirection('L');
             break;
@@ -165,10 +189,13 @@ void GameManager::input() {
     moveSnake();
 }
 
-void GameManager::gameLogic() {
+void GameManager::gameLogic()
+{
     COORD head = getSnakeHead();
-    for (int i = 0; i < activeObstacleCount; i++) {
-        if (head.X == obstacles[i].X && head.Y == obstacles[i].Y) {
+    for (int i = 0; i < activeObstacleCount; i++)
+    {
+        if (head.X == obstacles[i].X && head.Y == obstacles[i].Y)
+        {
             gameOver = true;
             return;
         }
@@ -177,10 +204,12 @@ void GameManager::gameLogic() {
     if (checkCollision())
         gameOver = true;
 
-    if (checkEatFood(getFoodPos())) {
+    if (checkEatFood(getFoodPos()))
+    {
         int pointsEarned = POINTS_PER_FOOD;
 
-        if (doubleScoreActive) {
+        if (doubleScoreActive)
+        {
             pointsEarned *= 2;
         }
 
@@ -188,7 +217,8 @@ void GameManager::gameLogic() {
         spawnFood();
         increaseSnakeLength();
 
-        if (level == 1 && score >= POINTS_FOR_LEVEL_2) {
+        if (level == 1 && score >= POINTS_FOR_LEVEL_2)
+        {
             level = 2;
             configurationLevel2();
             for (int i = 0; i < obstacleCountlevel2; i++)
@@ -202,7 +232,8 @@ void GameManager::gameLogic() {
             cout << "LEVEL 2!";
             Sleep(2000);
         }
-        else if (level == 2 && score >= POINTS_FOR_LEVEL_3) {
+        else if (level == 2 && score >= POINTS_FOR_LEVEL_3)
+        {
             level = 3;
             configurationLevel3();
             for (int i = 0; i < obstacleCountlevel3; i++)
@@ -219,8 +250,10 @@ void GameManager::gameLogic() {
     }
 }
 
-void GameManager::runGameLoop() {
-    while (!gameOver) {
+void GameManager::runGameLoop()
+{
+    while (!gameOver)
+    {
         render();
         renderPowerUps();
         Sleep(currentGameSpeed);
@@ -232,7 +265,8 @@ void GameManager::runGameLoop() {
     }
 }
 
-void GameManager::endGame() {
+void GameManager::endGame()
+{
     Player currentPlayer;
     currentPlayer.name = playerName;
     currentPlayer.score = score;
