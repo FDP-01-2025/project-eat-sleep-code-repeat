@@ -1,56 +1,56 @@
 # 🐍 SnakyThings 🐍 
 
-## 🎮 Theme and Settings:
+## 🎮 Tema y Configuración::
 
-**SnakyThings** is a classic console-based game inspired by the traditional Snake. You control a snake that moves around the map, eats objects to grow, and earns points.
+**SnakyThings** es un juego clásico basado en consola inspirado en la serpiente tradicional. Controlas una serpiente que se mueve por el mapa, come objetos para crecer y gana puntos.
 
-As you progress, the game becomes more challenging with new levels and obstacles that you must avoid to stay alive. Everything happens in a simple, retro-style text-based environment, giving it a minimalist yet fun gameplay experience.
+A medida que avanzas, el juego se vuelve más desafiante con nuevos niveles y obstáculos que debes evitar para mantenerte con vida. Todo ocurre en un entorno minimalista basado en texto, lo que brinda una experiencia de juego sencilla pero divertida.
 ##
 
-## ⚙️ Main Mechanic:
-The main mechanic of SnakyThings is simple: guide the snake using the AWSD keys to collect food that appears on the screen. Each time the snake eats, it grows longer and the score increases.
+## ⚙️ Mecánica Principal:
+La mecánica principal de SnakyThings es simple: guía a la serpiente usando las teclas AWSD para recolectar comida que aparece en la pantalla. Cada vez que la serpiente come, crece más larga y la puntuación aumenta.
 
-The challenge comes from avoiding collisions—either with the walls, with obstacles that appear in higher levels, or with the snake’s own body. The game ends if the snake crashes into anything.
+El desafío consiste en evitar colisiones, ya sea con las paredes, con los obstáculos que aparecen en niveles más altos o con el propio cuerpo de la serpiente. El juego termina si la serpiente choca contra algo.
 
-As the player reaches certain scores, new levels are unlocked with increasing difficulty and different obstacle layouts.
+Cuando el jugador alcanza ciertas puntuaciones, se desbloquean nuevos niveles con mayor dificultad y diferentes disposiciones de obstáculos.
 ##
 
-## 🧩 General Gameplay Idea:
-SnakyThings offers a simple yet engaging gameplay experience. You start with a small snake on an empty map, and your goal is to eat as much food as you can to grow and earn points.
+## 🧩 Idea General del Juego:
+SnakyThings ofrece una experiencia de juego sencilla pero atractiva. Comienzas con una serpiente pequeña en un mapa vacío, y tu objetivo es comer tanta comida como puedas para crecer y ganar puntos.
 
-As the snake grows, the game becomes more difficult: space is reduced by obstacles and your movements must be more precise. When you reach a high score, new levels are unlocked with obstacles placed on the map, which add an extra level of difficulty.
+A medida que la serpiente crece, el juego se vuelve más difícil: el espacio se reduce debido a los obstáculos y tus movimientos deben ser más precisos. Cuando alcanzas una puntuación alta, se desbloquean nuevos niveles con obstáculos colocados en el mapa, lo que añade un nivel extra de dificultad.
 
-The game focuses on reflexes, planning your moves and adapting to the increasing challenge as you progress.
+El juego se centra en los reflejos, la planificación de tus movimientos y la adaptación al desafío creciente a medida que avanzas.
 ##
 
-## 🔧 Technical Considerations:
-SnakyThings is developed in C++ and runs purely in the console, using only standard system libraries and text-based rendering.
+## 🔧 Consideraciones Técnicas:
+SnakyThings está desarrollado en C++ y se ejecuta únicamente en la consola, utilizando solo bibliotecas estándar del sistema y renderizado basado en texto.
 
-**Key technical details:**
+**Detalles técnicos clave:**
 - Language: C++.
 
-- Environment: Console-only. (no graphical interface)
+- Entorno: Solo consola. (sin interfaz gráfica)
   
-**Libraries used:**
+**Bibliotecas utilizadas:**
 
-- **`<iostream>`** for input and output.
+- **`<iostream>`** para entrada y salida de datos
 
-- **`<windows.h>`** for cursor control and screen clearing.
+- **`<windows.h>`** para control del cursor y limpieza de pantalla.
 
-- **`<conio.h>`** for real-time key detection.
+- **`<conio.h>`** para detección de teclas en tiempo real.
 
-- **`<stdlib.h>`** and **`<time.h>`** for system functions and randomness.
+- **`<stdlib.h>`** and **`<time.h>`** para funciones del sistema y generación de números aleatorios.
 
-- **`<fstream>`** For saving player names and scores to a `.txt` file
+- **`<fstream>`** para guardar nombres de jugadores y puntuaciones en un archivo `.txt`.
 
-**Implementation details and restrictions**:
+**Detalles y restricciones de implementación**:
 
- - ✅ The game logic is implemented using variables and basic data types, arrays, Conditional structures: (if, else, switch), loops: (for, while, do while), file handling to save player names and scores to a .txt file and functions.
+ - ✅ La lógica del juego se implementa utilizando variables y tipos de datos básicos, arreglos, estructuras condicionales (if, else, switch), bucles (for, while, do while), manejo de archivos para guardar nombres de jugadores y puntajes en un archivo .txt, y funciones.
 
--  ⚠️ No use of vectors, lists, trees, or object-oriented programming.eep the code simple and easy to understand. This helps keep the code simple, readable, and easy to modify.
+-  ⚠️ No se usan: vectores, listas, árboles ni programación orientada a objetos. Esto mantiene el código simple, legible y fácil de modificar.
 ##
 
-## 🖼️ Mockups and Conceptual Designs:
+## 🖼️ Bocetos y Diseños Conceptuales:
 **Main menu.**
 <img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/eeef6c59-a427-4e70-b896-b1cf196cd050" />
 **Player name entered. (To display in the game)**
@@ -74,10 +74,10 @@ SnakyThings is developed in C++ and runs purely in the console, using only stand
 **Game Over.**
 <img width="1919" height="1061" alt="Image" src="https://github.com/user-attachments/assets/7c85fe42-6b50-4ac5-89fe-0d3514374424" />
 ##
-## 💼 Team name:
+## 💼 Nombre del equipo:
 **Eat, Sleep, Code, Repeat.**
 ##
-## 👥 Team Members
+## 👥 Miembros del equipo
 
 1. **Anthony Odir López Guzmán.**  
    📘 **Student ID:** 00077325.
@@ -91,9 +91,9 @@ SnakyThings is developed in C++ and runs purely in the console, using only stand
 4. **Rene Fernando Serrano Cardona.**  
    📘 **Student ID:** 00098725.
 ##
-## 🚀 How to Run the Project Locally
+## 🚀 Cómo ejecutar el proyecto localmente
 
-1. **Clone the repository:**
+1. **Clona el repositorio:**
 
 ```bash
 https://github.com/FDP-01-2025/project-eat-sleep-code-repeat.git
