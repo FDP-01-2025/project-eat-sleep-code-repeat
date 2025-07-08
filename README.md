@@ -87,11 +87,22 @@ SnakyThings está desarrollado en C++ y se ejecuta únicamente en la consola, ut
 ##
 ## 🚀 Cómo ejecutar el proyecto localmente
 
-1. **Clona el repositorio:**
-
-```bash
-https://github.com/FDP-01-2025/project-eat-sleep-code-repeat.git
-
+1. **Clona el repositorio en tu computadora**:
+   ```bash
+   git clone https://github.com/FDP-01-2025/project-eat-sleep-code-repeat.git
+   ```
+2. **Navega al directorio del proyecto**
+   ```bash
+   cd project-eat-sleep-code-repeat
+   ```
+3. **Compila el juego en el terminal. (Si el archivo ejecutable del juego no existe).**
+   ```bash
+   g++ -o snake src/source/Main.cpp src/source/Snake.cpp src/source/Food.cpp src/source/ConfigurationLevel2.cpp src/source/ConfigurationLevel3.cpp src/source/Player.cpp src/source/PowerUps.cpp src/source/MenuManager.cpp src/source/GameManager.cpp src/source/ConfigurationLevel1.cpp
+   ```
+4. **Ejecuta el juego y maximiza la ventana:**
+   ```bash
+   .\snake
+   ``` 
 
 
 
