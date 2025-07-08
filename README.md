@@ -46,11 +46,11 @@ SnakyThings is developed in C++ and runs purely in the console, using only stand
 **Implementation details and restrictions**:
 
  - ✅ The game logic is implemented using variables and basic data types, arrays, Conditional structures: (if, else, switch), loops: (for, while, do while), file handling to save player names and scores to a .txt file and functions.
-
--  ⚠️ No use of vectors, lists, trees, or object-oriented programming.eep the code simple and easy to understand. This helps keep the code simple, readable, and easy to modify.
+ - 
 ##
 
 ## 🖼️ Mockups and Conceptual Designs:
+Initial concepts planned for implementation in the video game
 **Main menu.**
 <img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/eeef6c59-a427-4e70-b896-b1cf196cd050" />
 **Player name entered. (To display in the game)**
@@ -74,6 +74,11 @@ SnakyThings is developed in C++ and runs purely in the console, using only stand
 **Game Over.**
 <img width="1919" height="1061" alt="Image" src="https://github.com/user-attachments/assets/7c85fe42-6b50-4ac5-89fe-0d3514374424" />
 ##
+
+## 📃Video game flowchart
+
+##
+
 ## 💼 Team name:
 **Eat, Sleep, Code, Repeat.**
 ##
@@ -93,10 +98,23 @@ SnakyThings is developed in C++ and runs purely in the console, using only stand
 ##
 ## 🚀 How to Run the Project Locally
 
-1. **Clone the repository:**
-
-```bash
-https://github.com/FDP-01-2025/project-eat-sleep-code-repeat.git
+## Clone and Run
+1. **Clone the repository in your Desktop**:
+   ```bash
+   git clone https://github.com/FDP-01-2025/project-eat-sleep-code-repeat.git
+   ```
+2. **Navigate to project directory:**
+   ```bash
+   cd project-eat-sleep-code-repeat
+   ```
+3. **Compile the game in the terminal. (If the executable file of the game does not exist.)**
+   ```bash
+   g++ -o snake src/source/Main.cpp src/source/Snake.cpp src/source/Food.cpp src/source/ConfigurationLevel2.cpp src/source/ConfigurationLevel3.cpp src/source/Player.cpp src/source/PowerUps.cpp src/source/MenuManager.cpp src/source/GameManager.cpp src/source/ConfigurationLevel1.cpp
+   ```
+4. **Run the game and maximizes the window:**
+   ```bash
+   .\snake
+   ``` 
 
 
 
