@@ -30,7 +30,6 @@ void MenuManager::showStartMenu() {
     cout << "| *********  *         * *  *               *  *         *     *           **      *      *  **********  *         * *  **********  ********* |" << endl;
     cout << "|                                                                                                                                             |" << endl;
     cout << "*---------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
-    cout << "                                                         PRESS ENTER TO START!                                                              \n";
     cout << "                                                      PRESS SPACE FOR HOW TO PLAY!                                                          \n";
     cout << "                                                      PRESS L FOR LEVEL SELECTOR!                                                           \n";
     cout << "                                                      PRESS H FOR HIGH SCORES!                                                              \n";
