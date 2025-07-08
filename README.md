@@ -50,7 +50,8 @@ SnakyThings is developed in C++ and runs purely in the console, using only stand
 ##
 
 ## 🖼️ Mockups and Conceptual Designs:
-Initial concepts planned for implementation in the video game
+Initial concepts planned for implementation in the video game.
+
 **Main menu.**
 <img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/eeef6c59-a427-4e70-b896-b1cf196cd050" />
 **Player name entered. (To display in the game)**
