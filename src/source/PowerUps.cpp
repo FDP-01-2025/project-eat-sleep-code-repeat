@@ -17,6 +17,10 @@ std::string activeEffectMessage = "";
 time_t messageEndTime = 0;
 bool showingMessage = false;
 
+int originalGameSpeed = GAME_SPEED;
+bool speedEffectActive = false;
+time_t speedEffectEndTime = 0;
+
 // Función auxiliar para validar si la posición es válida para un power-up
 bool isPositionValid(COORD pos)
 {
@@ -117,6 +121,12 @@ void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
 {
     time_t currentTime = time(NULL);
 
+    if (speedEffectActive && currentTime >= speedEffectEndTime)
+    {
+        *gameSpeed = originalGameSpeed;
+        speedEffectActive = false;
+    }
+
     for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
     {
         if (activePowerUps[i].active)
@@ -129,16 +139,22 @@ void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
                 switch (activePowerUps[i].type)
                 {
                 case PU_SPEED_UP:
+                    originalGameSpeed = *gameSpeed;
                     *gameSpeed = std::max(MIN_GAME_SPEED, *gameSpeed - SPEED_CHANGE_AMOUNT);
                     activeEffectMessage = "|SPEED BOOST!|";
                     messageEndTime = currentTime + EFFECT_DURATION;
+                    speedEffectEndTime = messageEndTime;
+                    speedEffectActive = true;
                     showingMessage = true;
                     break;
 
                 case PU_SPEED_DOWN:
+                    originalGameSpeed = *gameSpeed;
                     *gameSpeed = std::min(MAX_GAME_SPEED, *gameSpeed + SPEED_CHANGE_AMOUNT);
                     activeEffectMessage = "|SPEED REDUCED!|";
                     messageEndTime = currentTime + EFFECT_DURATION;
+                    speedEffectEndTime = messageEndTime;
+                    speedEffectActive = true;
                     showingMessage = true;
                     break;
 
