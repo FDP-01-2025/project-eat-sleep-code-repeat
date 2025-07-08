@@ -3,27 +3,33 @@
 COORD level2Obstacles[MAX_OBSTACLES];
 int obstacleCountlevel2 = 0;
 
-// Function to configure the obstacles for level 2
-// This function sets the positions of the obstacles in the level 2 configuration
-void configurationLevel2()
-{
-    int index = 0;
+void configurationLevel2() {
+    obstacleCountlevel2 = 0;
 
-    // Línea horizontal superior (Y = 8), de X = 28 a 32
-    for (int x = 28; x <= 32; x++)
-    {
-        level2Obstacles[index].X = x;
-        level2Obstacles[index].Y = 8;
-        index++;
+    // Marco simple con más espacios
+    for(int x = 15; x <= 45; x += 6) {  // Bordes superior e inferior
+        level2Obstacles[obstacleCountlevel2].X = x;
+        level2Obstacles[obstacleCountlevel2].Y = 5;
+        obstacleCountlevel2++;
+        
+        level2Obstacles[obstacleCountlevel2].X = x;
+        level2Obstacles[obstacleCountlevel2].Y = 15;
+        obstacleCountlevel2++;
     }
 
-    // Línea horizontal inferior (Y = 12), de X = 28 a 32
-    for (int x = 28; x <= 32; x++)
-    {
-        level2Obstacles[index].X = x;
-        level2Obstacles[index].Y = 12;
-        index++;
+    for(int y = 7; y <= 13; y += 4) {  // Bordes laterales
+        level2Obstacles[obstacleCountlevel2].X = 15;
+        level2Obstacles[obstacleCountlevel2].Y = y;
+        obstacleCountlevel2++;
+        
+        level2Obstacles[obstacleCountlevel2].X = 45;
+        level2Obstacles[obstacleCountlevel2].Y = y;
+        obstacleCountlevel2++;
     }
 
-    obstacleCountlevel2 = index;
+    // Solo 4 obstáculos centrales en forma de cruz simple
+    level2Obstacles[obstacleCountlevel2].X = 30; level2Obstacles[obstacleCountlevel2].Y = 8; obstacleCountlevel2++;
+    level2Obstacles[obstacleCountlevel2].X = 30; level2Obstacles[obstacleCountlevel2].Y = 12; obstacleCountlevel2++;
+    level2Obstacles[obstacleCountlevel2].X = 25; level2Obstacles[obstacleCountlevel2].Y = 10; obstacleCountlevel2++;
+    level2Obstacles[obstacleCountlevel2].X = 35; level2Obstacles[obstacleCountlevel2].Y = 10; obstacleCountlevel2++;
 }
