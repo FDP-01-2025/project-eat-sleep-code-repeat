@@ -65,12 +65,6 @@ SnakyThings está desarrollado en C++ y se ejecuta únicamente en la consola, ut
 <img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/3e4969e8-b9dc-4893-a667-16c23f464017" />
 **Level 3 design. (With obstacles)**
 <img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/a9355a2a-8d7a-4830-add1-84f6a951442b" />
-**Level 4 design. (With obstacles)**
-<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/1e3a13eb-3867-4776-9ae3-712a6e153454" />
-**Level 5 design. (With obstacles)**
-<img width="1919" height="1079" alt="Image" src="https://github.com/user-attachments/assets/2db97ee1-670d-4473-8f0f-ac957baa677e" />
-**Congratulations! You Win!**
-<img width="1903" height="1068" alt="Image" src="https://github.com/user-attachments/assets/76a0c253-ad5d-41a0-af07-ff612d756508" />
 **Game Over.**
 <img width="1919" height="1061" alt="Image" src="https://github.com/user-attachments/assets/7c85fe42-6b50-4ac5-89fe-0d3514374424" />
 ##
