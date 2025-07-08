@@ -3,6 +3,7 @@
 #include "../headers/ConfigurationLevel2.h"
 #include "../headers/ConfigurationLevel3.h"
 #include "../headers/Player.h"
+#include "../headers/PowerUps.h"
 #include <iostream>
 #include <conio.h>
 #include <string>
@@ -123,7 +124,7 @@ void GameManager::render()
                     if (j == obstacles[o].X && i == obstacles[o].Y)
                     {
                         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-                    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
                         cout << "$";
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                         isObstacle = true;
@@ -168,6 +169,10 @@ void GameManager::render()
         {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         }
+        else if (activeEffectMessage.find("FREEZE") != string::npos)
+        {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        }
 
         cout << activeEffectMessage;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -176,28 +181,53 @@ void GameManager::render()
 
 void GameManager::input()
 {
-    if (_kbhit())
+    if (freezeActive)
     {
-        switch (_getch())
+
+        if (_kbhit())
         {
-        case 'a':
-            changeDirection('L');
-            break;
-        case 'd':
-            changeDirection('R');
-            break;
-        case 'w':
-            changeDirection('U');
-            break;
-        case 's':
-            changeDirection('D');
-            break;
-        case 'q':
-            gameOver = true;
-            break;
+            switch (_getch())
+            {
+            case 'a':
+                changeDirection('L');
+                break;
+            case 'd':
+                changeDirection('R');
+                break;
+            case 'w':
+                changeDirection('U');
+                break;
+            case 's':
+                changeDirection('D');
+                break;
+            }
         }
     }
-    moveSnake();
+    else
+    {
+        if (_kbhit())
+        {
+            switch (_getch())
+            {
+            case 'a':
+                changeDirection('L');
+                break;
+            case 'd':
+                changeDirection('R');
+                break;
+            case 'w':
+                changeDirection('U');
+                break;
+            case 's':
+                changeDirection('D');
+                break;
+            case 'q':
+                gameOver = true;
+                break;
+            }
+        }
+        moveSnake();
+    }
 }
 
 void GameManager::gameLogic()
