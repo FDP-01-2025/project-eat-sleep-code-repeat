@@ -36,7 +36,6 @@ void changeDirection(char newDirection)
     snakeDirection = newDirection;
 }
 
-
 // Moves the snake according to its current direction.
 void moveSnake()
 {

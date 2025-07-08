@@ -2,18 +2,20 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <string>
+#include <string> // For using strings like player name and date
 #include <fstream>
-#include <ctime>
-#include <iomanip>
+#include <ctime>   // To get the current date and time
+#include <iomanip> // For formatting output (like aligning columns)
 
-struct Player {
+struct Player
+{
     std::string name;
     int score;
     int level;
     std::string date;
-    
-    static void saveToFile(const Player& player);
+    // Saves player info to file
+    static void saveToFile(const Player &player);
+    // Displays top scores on screen
     static void showHighScores();
 };
 

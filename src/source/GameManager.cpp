@@ -12,16 +12,17 @@ using namespace std;
 
 GameManager::GameManager()
 {
-    gameOver = false;
-    score = 0;
-    level = 1;
-    activeObstacleCount = 0;
-    currentGameSpeed = GAME_SPEED;
+    gameOver = false;              // Game has not ended yet
+    score = 0;                     // Initial score
+    level = 1;                     // Default level
+    activeObstacleCount = 0;       // No obstacles at the start
+    currentGameSpeed = GAME_SPEED; // Default game speed
 }
-
+// Array and counter for obstacles in the current level
 COORD obstacles[MAX_OBSTACLES];
 int activeObstacleCount = 0;
 
+// Hides or shows the blinking console cursor
 void GameManager::ShowConsoleCursor(bool showFlag)
 {
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -31,6 +32,7 @@ void GameManager::ShowConsoleCursor(bool showFlag)
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
+// Loads obstacles and settings based on the selected level
 void GameManager::setupLevel(int selectedLevel)
 {
     level = selectedLevel;
@@ -58,7 +60,7 @@ void GameManager::setupLevel(int selectedLevel)
         break;
     }
 }
-
+// Resets game state, snake, food, and power-ups
 void GameManager::initGame()
 {
     system("cls");
@@ -72,18 +74,18 @@ void GameManager::initGame()
     originalGameSpeed = GAME_SPEED;
     speedEffectActive = false;
 }
-
+// Resets only the snake, food, and power-ups (used for restarting without quitting)
 void GameManager::resetSnakeOnly()
 {
     initSnake();
     initFood();
     initPowerUps();
 }
-
+// Draws the game scene: walls, snake, food, power-ups, and info
 void GameManager::render()
 {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
-
+    // Top wall
     for (int i = 0; i < GAME_WIDTH + 2; i++)
         cout << "#";
     cout << endl;
@@ -93,7 +95,7 @@ void GameManager::render()
     COORD body[MAX_SNAKE_LENGTH];
     int length;
     getSnakeBody(body, &length);
-
+    // Game area rendering
     for (int i = 0; i < GAME_HEIGHT; i++)
     {
         for (int j = 0; j < GAME_WIDTH; j++)
@@ -112,7 +114,7 @@ void GameManager::render()
                 {
                     if (j == body[k].X && i == body[k].Y)
                     {
-                        cout << "o";
+                        cout << "o"; // Snake tail
                         tailPart = true;
                         break;
                     }
@@ -125,7 +127,7 @@ void GameManager::render()
                     {
                         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
-                        cout << "$";
+                        cout << "$"; // Obstacle symbol
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                         isObstacle = true;
                         break;
@@ -133,25 +135,26 @@ void GameManager::render()
                 }
 
                 if (!tailPart && !isObstacle)
-                    cout << " ";
+                    cout << " "; // Empty space
             }
 
             if (j == GAME_WIDTH - 1)
-                cout << "#";
+                cout << "#"; // Right wall
         }
         cout << endl;
     }
-
+    // Bottom wall
     for (int i = 0; i < GAME_WIDTH + 2; i++)
         cout << "#";
+    // HUD
     cout << "\n\nPlayer: " << playerName << "  Score: " << score << "  Level: " << level << "\n";
 
-    // Show active effect message
+    // Display effect messages (e.g. 2x score, speed boost)
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD messagePos = {0, GAME_HEIGHT + 4};
 
     SetConsoleCursorPosition(hConsole, messagePos);
-    cout << string(GAME_WIDTH, ' ');
+    cout << string(GAME_WIDTH, ' '); // Clear line
 
     if (showingMessage)
     {
@@ -178,7 +181,7 @@ void GameManager::render()
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     }
 }
-
+// Handles player input for movement or quitting
 void GameManager::input()
 {
     if (freezeActive)
@@ -229,7 +232,7 @@ void GameManager::input()
         moveSnake();
     }
 }
-
+// Handles collisions, food, score, and game over logic
 void GameManager::gameLogic()
 {
     COORD head = getSnakeHead();
@@ -242,7 +245,7 @@ void GameManager::gameLogic()
         }
     }
 
-    if (checkCollision())
+    if (checkCollision()) // With walls or itself
         gameOver = true;
 
     if (checkEatFood(getFoodPos()))
@@ -258,11 +261,11 @@ void GameManager::gameLogic()
         spawnFood();
         increaseSnakeLength();
 
-        // Se eliminó completamente la lógica de progresión automática de niveles
-        // Ahora el jugador permanece en el nivel seleccionado independientemente de los puntos
+        // Automatic level progression was fully removed
+        // The player now stays on the selected level regardless of score
     }
 }
-
+// Main game loop: render, input, update logic, manage power-ups
 void GameManager::runGameLoop()
 {
     while (!gameOver)
@@ -277,7 +280,7 @@ void GameManager::runGameLoop()
         checkPowerUpCollision(getSnakeHead(), &score, &currentGameSpeed);
     }
 }
-
+// Shows game over screen, stores score, and exits
 void GameManager::endGame()
 {
     Player currentPlayer;

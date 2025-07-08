@@ -6,16 +6,19 @@
 #include <windows.h>
 
 using namespace std;
-
-MenuManager::MenuManager() {
+// Constructor: initializes default level
+MenuManager::MenuManager()
+{
     selectedLevel = 1;
 }
-
-string MenuManager::getPlayerNameValue() const {
+// Returns the player's name
+string MenuManager::getPlayerNameValue() const
+{
     return playerName;
 }
-
-void MenuManager::showStartMenu() {
+// Displays the start menu with ASCII art and instructions
+void MenuManager::showStartMenu()
+{
     system("cls");
     cout << "*---------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
     cout << "|                                                                                                                                             |" << endl;
@@ -35,8 +38,9 @@ void MenuManager::showStartMenu() {
     cout << "                                                      PRESS H FOR HIGH SCORES!                                                              \n";
     cout << "                                                      PRESS X FOR EXIT THE GAME :(                                                          \n";
 }
-
-void MenuManager::showHowToPlayMenu() {
+// Displays how-to-play instructions
+void MenuManager::showHowToPlayMenu()
+{
     system("cls");
     cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
     cout << "|                                                                                                                            |" << endl;
@@ -63,8 +67,9 @@ void MenuManager::showHowToPlayMenu() {
     cout << "                                                                                                                           \n";
     cout << "                                                 PRESS O TO RETURN TO THE MENU.                                            \n";
 }
-
-void MenuManager::showLevelSelectorMenu() {
+// Displays level selection screen
+void MenuManager::showLevelSelectorMenu()
+{
     system("cls");
     cout << "*----------------------------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
     cout << "|                                                                                                                                                                |" << endl;
@@ -87,16 +92,19 @@ void MenuManager::showLevelSelectorMenu() {
     cout << "                                                                                                                                                               \n";
     cout << "                                                              PRESS O TO RETURN TO MENU                                                                        \n";
 }
-
-void MenuManager::getPlayerName() {
+// Prompts user for player name
+void MenuManager::getPlayerName()
+{
     system("cls");
-    do {
+    do
+    {
         system("cls");
         cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
         cout << "|                                                     ENTER YOUR NAME                                                        |" << endl;
         cout << "*----------------------------------------------------------------------------------------------------------------------------*" << endl;
 
-        if (!playerName.empty()) {
+        if (!playerName.empty())
+        {
             cout << "\nName cannot be empty. Please enter a valid name.\n\n";
         }
 
@@ -104,80 +112,101 @@ void MenuManager::getPlayerName() {
         getline(cin, playerName);
     } while (playerName.empty());
 }
-
-void MenuManager::handleMainMenu() {
+// Handles logic for the main menu loop
+void MenuManager::handleMainMenu()
+{
     bool inMainMenu = true;
-    
-    while (inMainMenu) {
+
+    while (inMainMenu)
+    {
         showStartMenu();
-        
-        while (true) {
-            if (_kbhit()) {
+
+        while (true)
+        {
+            if (_kbhit())
+            {
                 char key = _getch();
-                if (key == 13) { // ENTER
+                if (key == 13)
+                { // ENTER
                     inMainMenu = false;
                     break;
                 }
-                else if (key == ' ') { // SPACE
+                else if (key == ' ')
+                { // SPACE
                     handleHowToPlayMenu();
                     break;
                 }
-                else if (key == 'l' || key == 'L') { // L for Level Selector
+                else if (key == 'l' || key == 'L')
+                { // L for Level Selector
                     handleLevelSelectorMenu();
-                    // Después de salir del selector de nivel, salir del menú principal
+                    // After exiting the level selector, exit the main menu.
                     inMainMenu = false;
                     break;
                 }
-                else if (key == 'h' || key == 'H') { // H for High Scores
+                else if (key == 'h' || key == 'H')
+                { // H for High Scores
                     Player::showHighScores();
                     break;
                 }
-                else if (key == 'x' || key == 'X') { // X for exit
+                else if (key == 'x' || key == 'X')
+                { // X for exit
                     exit(0);
                 }
             }
         }
     }
 }
-
-void MenuManager::handleHowToPlayMenu() {
+// Handles logic for the how-to-play menu
+void MenuManager::handleHowToPlayMenu()
+{
     showHowToPlayMenu();
-    
-    while (true) {
-        if (_kbhit()) {
+
+    while (true)
+    {
+        if (_kbhit())
+        {
             char key = _getch();
-            if (key == 'o' || key == 'O') {
+            if (key == 'o' || key == 'O')
+            {
                 break;
             }
         }
     }
 }
-
-void MenuManager::handleLevelSelectorMenu() {
+// Handles logic for selecting level
+void MenuManager::handleLevelSelectorMenu()
+{
     bool levelSelected = false;
-    
-    while (!levelSelected) {
+
+    while (!levelSelected)
+    {
         showLevelSelectorMenu();
-        
-        while (true) {
-            if (_kbhit()) {
+
+        while (true)
+        {
+            if (_kbhit())
+            {
                 char key = _getch();
-                if (key == '1') {
+                if (key == '1')
+                {
                     selectedLevel = 1;
                     levelSelected = true;
                     break;
                 }
-                else if (key == '2') {
+                else if (key == '2')
+                {
                     selectedLevel = 2;
                     levelSelected = true;
                     break;
                 }
-                else if (key == '3') {
+                else if (key == '3')
+                {
                     selectedLevel = 3;
                     levelSelected = true;
                     break;
                 }
-                else if (key == 'o' || key == 'O') {
+                else if (key == 'o' || key == 'O')
+                {
                     // Return to main menu without changing level
                     return;
                 }

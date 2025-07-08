@@ -29,44 +29,53 @@ bool freezeActive = false;
 time_t freezeEndTime = 0;
 int frozenGameSpeed = 0;
 
-bool isPositionValidForPowerUp(COORD pos) {
+bool isPositionValidForPowerUp(COORD pos)
+{
     // 1. Avoiding game edges
-    if(pos.X <= 0 || pos.X >= GAME_WIDTH-1 || pos.Y <= 0 || pos.Y >= GAME_HEIGHT-1) {
+    if (pos.X <= 0 || pos.X >= GAME_WIDTH - 1 || pos.Y <= 0 || pos.Y >= GAME_HEIGHT - 1)
+    {
         return false;
     }
-    
+
     // 2. Avoid obstacles of the current level
-    for(int i = 0; i < activeObstacleCount; i++) {
-        if(pos.X == obstacles[i].X && pos.Y == obstacles[i].Y) {
+    for (int i = 0; i < activeObstacleCount; i++)
+    {
+        if (pos.X == obstacles[i].X && pos.Y == obstacles[i].Y)
+        {
             return false;
         }
     }
-    
+
     // 3. Avoid snake body
     COORD snakeBody[MAX_SNAKE_LENGTH];
     int snakeLength;
     getSnakeBody(snakeBody, &snakeLength);
-    for(int i = 0; i < snakeLength; i++) {
-        if(pos.X == snakeBody[i].X && pos.Y == snakeBody[i].Y) {
+    for (int i = 0; i < snakeLength; i++)
+    {
+        if (pos.X == snakeBody[i].X && pos.Y == snakeBody[i].Y)
+        {
             return false;
         }
     }
-    
+
     // 4. Avoid food position
     COORD foodPos = getFoodPos();
-    if(pos.X == foodPos.X && pos.Y == foodPos.Y) {
+    if (pos.X == foodPos.X && pos.Y == foodPos.Y)
+    {
         return false;
     }
-    
+
     // 5. Avoid other active power-ups
-    for(int i = 0; i < MAX_ACTIVE_POWERUPS; i++) {
-        if(activePowerUps[i].active && 
-           pos.X == activePowerUps[i].position.X && 
-           pos.Y == activePowerUps[i].position.Y) {
+    for (int i = 0; i < MAX_ACTIVE_POWERUPS; i++)
+    {
+        if (activePowerUps[i].active &&
+            pos.X == activePowerUps[i].position.X &&
+            pos.Y == activePowerUps[i].position.Y)
+        {
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -304,7 +313,7 @@ void checkPowerUpCollision(COORD headPos, int *score, int *gameSpeed)
         showingMessage = false;
     }
 }
-
+// Renders all active power-ups on the screen
 void renderPowerUps()
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -314,27 +323,27 @@ void renderPowerUps()
         if (activePowerUps[i].active)
         {
             SetConsoleCursorPosition(hConsole, activePowerUps[i].position);
-
+            // Choose the color and symbol based on power-up type
             switch (activePowerUps[i].type)
             {
             case PU_SPEED_UP:
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-                std::cout << "^";
+                std::cout << "^"; // speed boost
                 break;
 
             case PU_SPEED_DOWN:
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-                std::cout << "v";
+                std::cout << "v"; // slow down
                 break;
 
             case PU_DOUBLE_SCORE:
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-                std::cout << "2x";
+                std::cout << "2x"; // double points
                 break;
 
             case PU_FREEZE:
                 SetConsoleTextAttribute(hConsole, FREEZE_COLOR);
-                std::cout << "*";
+                std::cout << "*"; // freeze effect
                 break;
             }
         }
@@ -342,7 +351,7 @@ void renderPowerUps()
 
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 }
-
+// Deactivates any expired power-ups based on duration
 void clearExpiredPowerUps()
 {
     time_t currentTime = time(NULL);
