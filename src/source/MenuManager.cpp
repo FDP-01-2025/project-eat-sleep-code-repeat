@@ -10,9 +10,11 @@ using namespace std;
 MenuManager::MenuManager() {
     selectedLevel = 1;
 }
+
 string MenuManager::getPlayerNameValue() const {
     return playerName;
 }
+
 void MenuManager::showStartMenu() {
     system("cls");
     cout << "*---------------------------------------------------------------------------------------------------------------------------------------------*" << endl;
@@ -123,9 +125,8 @@ void MenuManager::handleMainMenu() {
                 }
                 else if (key == 'l' || key == 'L') { // L for Level Selector
                     handleLevelSelectorMenu();
-                    if (selectedLevel != 1) { // If a level was selected
-                        inMainMenu = false;
-                    }
+                    // Después de salir del selector de nivel, salir del menú principal
+                    inMainMenu = false;
                     break;
                 }
                 else if (key == 'h' || key == 'H') { // H for High Scores
@@ -139,7 +140,6 @@ void MenuManager::handleMainMenu() {
         }
     }
 }
-
 
 void MenuManager::handleHowToPlayMenu() {
     showHowToPlayMenu();
@@ -155,25 +155,33 @@ void MenuManager::handleHowToPlayMenu() {
 }
 
 void MenuManager::handleLevelSelectorMenu() {
-    showLevelSelectorMenu();
+    bool levelSelected = false;
     
-    while (true) {
-        if (_kbhit()) {
-            char key = _getch();
-            if (key == '1') {
-                selectedLevel = 1;
-                break;
-            }
-            else if (key == '2') {
-                selectedLevel = 2;
-                break;
-            }
-            else if (key == '3') {
-                selectedLevel = 3;
-                break;
-            }
-            else if (key == 'o' || key == 'O') {
-                break; // Return to main menu without changing level
+    while (!levelSelected) {
+        showLevelSelectorMenu();
+        
+        while (true) {
+            if (_kbhit()) {
+                char key = _getch();
+                if (key == '1') {
+                    selectedLevel = 1;
+                    levelSelected = true;
+                    break;
+                }
+                else if (key == '2') {
+                    selectedLevel = 2;
+                    levelSelected = true;
+                    break;
+                }
+                else if (key == '3') {
+                    selectedLevel = 3;
+                    levelSelected = true;
+                    break;
+                }
+                else if (key == 'o' || key == 'O') {
+                    // Return to main menu without changing level
+                    return;
+                }
             }
         }
     }

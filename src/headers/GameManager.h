@@ -32,6 +32,7 @@ public:
     void render();
     void input();
     void gameLogic();
+    int getCurrentLevel() const { return level; }
     
     // Utility functions
     void ShowConsoleCursor(bool showFlag);
