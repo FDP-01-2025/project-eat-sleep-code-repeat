@@ -46,8 +46,21 @@ SnakyThings está desarrollado en C++ y se ejecuta únicamente en la consola, ut
 **Detalles y restricciones de implementación**:
 
  - ✅ La lógica del juego se implementa utilizando variables y tipos de datos básicos, arreglos, estructuras condicionales (if, else, switch), bucles (for, while, do while), manejo de archivos para guardar nombres de jugadores y puntajes en un archivo .txt, y funciones.
-
--  ⚠️ No se usan: vectores, listas, árboles ni programación orientada a objetos. Esto mantiene el código simple, legible y fácil de modificar.
+   
+<img width="1826" height="702" alt="Image" src="https://github.com/user-attachments/assets/c6d1a61e-3845-4ccf-9d74-20c4dd1992c8" />
+ **cout**
+ <img width="1777" height="456" alt="Image" src="https://github.com/user-attachments/assets/3191714a-5001-456e-bc8f-150674a3d2d8" />
+ **do-while**
+ <img width="951" height="569" alt="Image" src="https://github.com/user-attachments/assets/04606f41-b234-4fa5-bdbb-53cdeeade0b2" />
+ **file hadling**
+ <img width="750" height="258" alt="Image" src="https://github.com/user-attachments/assets/15b63cae-7ae9-4686-87c3-09e7b666d19d" />
+ **for**
+ <img width="899" height="754" alt="Image" src="https://github.com/user-attachments/assets/3a17df08-d1f9-43cb-bf84-e38e7e93a006" />
+ **if-else**
+ <img width="412" height="630" alt="Image" src="https://github.com/user-attachments/assets/ef7fcea6-dcfc-468d-b7f8-76898fad111b" />
+ **case**
+ <img width="1348" height="848" alt="Image" src="https://github.com/user-attachments/assets/08f10a14-ae14-4f11-a8ce-31d8b1e6913a" />
+ **while**
 ##
 
 ## 🖼️ Bocetos y Diseños Conceptuales:
