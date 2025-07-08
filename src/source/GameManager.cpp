@@ -54,11 +54,15 @@ void GameManager::setupLevel(int selectedLevel)
 void GameManager::initGame()
 {
     system("cls");
+    score = 0;
     gameOver = false;
     initSnake();
     initFood();
     initPowerUps();
     ShowConsoleCursor(false);
+
+    originalGameSpeed = GAME_SPEED;
+    speedEffectActive = false;
 }
 
 void GameManager::resetSnakeOnly()
