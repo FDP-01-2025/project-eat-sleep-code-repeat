@@ -6,6 +6,7 @@
 #include "Snake.h"
 #include "Food.h"
 #include "PowerUps.h"
+#include "ConfigurationLevel1.h"
 #include "ConfigurationLevel2.h"
 #include "ConfigurationLevel3.h"
 

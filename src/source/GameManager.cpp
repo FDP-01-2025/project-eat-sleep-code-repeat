@@ -228,36 +228,8 @@ void GameManager::gameLogic()
         spawnFood();
         increaseSnakeLength();
 
-        if (level == 1 && score >= POINTS_FOR_LEVEL_2)
-        {
-            level = 2;
-            configurationLevel2();
-            for (int i = 0; i < obstacleCountlevel2; i++)
-                obstacles[i] = level2Obstacles[i];
-            activeObstacleCount = obstacleCountlevel2;
-
-            resetSnakeOnly();
-
-            system("cls");
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
-            cout << "LEVEL 2!";
-            Sleep(2000);
-        }
-        else if (level == 2 && score >= POINTS_FOR_LEVEL_3)
-        {
-            level = 3;
-            configurationLevel3();
-            for (int i = 0; i < obstacleCountlevel3; i++)
-                obstacles[i] = level3Obstacles[i];
-            activeObstacleCount = obstacleCountlevel3;
-
-            resetSnakeOnly();
-
-            system("cls");
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {GAME_WIDTH / 2 - 5, GAME_HEIGHT / 2});
-            cout << "LEVEL 3!";
-            Sleep(2000);
-        }
+        // Se eliminó completamente la lógica de progresión automática de niveles
+        // Ahora el jugador permanece en el nivel seleccionado independientemente de los puntos
     }
 }
 
