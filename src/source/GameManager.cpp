@@ -1,4 +1,7 @@
 #include "../headers/GameManager.h"
+#include "../headers/ConfigurationLevel1.h"
+#include "../headers/ConfigurationLevel2.h"
+#include "../headers/ConfigurationLevel3.h"
 #include "../headers/Player.h"
 #include <iostream>
 #include <conio.h>
@@ -35,6 +38,10 @@ void GameManager::setupLevel(int selectedLevel)
     switch (selectedLevel)
     {
     case 1:
+        configurationLevel1();
+        for (int i = 0; i < obstacleCountLevel1; i++)
+            obstacles[i] = level1Obstacles[i];
+        activeObstacleCount = obstacleCountLevel1;
         break;
     case 2:
         configurationLevel2();
