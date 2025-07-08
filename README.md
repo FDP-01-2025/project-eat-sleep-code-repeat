@@ -115,9 +115,9 @@ SnakyThings está desarrollado en C++ y se ejecuta únicamente en la consola, ut
 ##
 
 ## 📊 Flujograma del videojuego
+
 Aquí puedes ver el flujograma completo del videojuego en Lucidchart: https://lucid.app/lucidchart/f8dfc519-39a7-4633-8a3f-c8981d498dda/edit?view_items=rjWvSFYpgDX0&invitationId=inv_55df7abf-20e1-4a6f-a504-3a42f899ad7f)
 
-[Ver flujograma en Lucidchart](https://lucid.app/lucidchart/f8dfc519-39a7-4633-8a3f-c8981d498dda/edit?view_items=rjWvSFYpgDX0&invitationId=inv_55df7abf-20e1-4a6f-a504-3a42f899ad7f
 ## 🚀 Cómo ejecutar el proyecto localmente
 
 1. **Clona el repositorio en tu computadora**:
