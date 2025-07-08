@@ -10,7 +10,7 @@
 #define MAX_SNAKE_LENGTH 100
 
 // Obstacles configuration
-#define MAX_OBSTACLES 10
+#define MAX_OBSTACLES 200
 
 // Game speed (milliseconds between frames)
 #define GAME_SPEED 65
