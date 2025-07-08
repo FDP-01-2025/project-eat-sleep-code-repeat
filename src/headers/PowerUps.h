@@ -8,6 +8,7 @@
 #include "../headers/Snake.h"
 #include "../headers/Food.h"
 #include "../headers/PowerUps.h"
+#include "../headers/ConfigurationLevel1.h"
 #include "../headers/ConfigurationLevel2.h"
 #include "../headers/ConfigurationLevel3.h"
 
@@ -43,8 +44,8 @@ void clearExpiredPowerUps();                                           // Remove
 #define DOUBLE_SCORE_DURATION 10  // Seconds double score remains active
 #define MAX_ACTIVE_POWERUPS 2     // Maximum active power-ups at once
 
-#define SPEED_CHANGE_AMOUNT 60 // Increased from 30 for more dramatic effect
-#define MIN_GAME_SPEED 7       // Faster maximum speed (lower = faster)
+#define SPEED_CHANGE_AMOUNT 30 // Increased from 30 for more dramatic effect
+#define MIN_GAME_SPEED 30       // Faster maximum speed (lower = faster)
 #define MAX_GAME_SPEED 200     // Slower minimum speed (higher = slower)
 #define EFFECT_DURATION 6      // Duration for speed effects (seconds)
 
